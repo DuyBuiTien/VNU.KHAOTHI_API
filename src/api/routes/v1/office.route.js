@@ -16,10 +16,7 @@ router
   // tạo mới
   .post(authorize(LOGGED_USER), controller.create);
 
-router
-  .route('/ImportOffice')
-  // tìm kiếm
-  .post(authorize(LOGGED_USER), controller.ImportOffice);
+
 router
   .route('/AddParentId')
   // tìm kiếm
