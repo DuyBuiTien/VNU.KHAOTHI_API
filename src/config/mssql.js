@@ -31,12 +31,17 @@ db.role_permission = require('../api/models/role_permission.model')(sequelize, S
 
 db.attachment = require('../api/models/attachment.model')(sequelize, Sequelize);
 
+db.subcribe = require('../api/models/subcribe.model')(sequelize, Sequelize);
+db.place = require('../api/models/place.model')(sequelize, Sequelize);
+
 const User = db.users;
 const Position = db.positions;
 const Office = db.offices;
 const Role = db.roles;
 const Permission = db.permissions;
 const Attachment = db.attachment;
+const Subcribe = db.subcribe;
+const Place = db.place;
 
 Position.hasMany(User, { as: 'users' });
 User.belongsTo(Position, {
