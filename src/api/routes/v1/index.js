@@ -5,6 +5,8 @@ const roleRoutes = require('./role.route');
 const permissionRoutes = require('./permission.route');
 const officeRoutes = require('./office.route');
 const positionRoutes = require('./position.route');
+const subcribeRoutes = require('./subcribe.route');
+const placeRoutes = require('./place.route');
 
 const router = express.Router();
 
@@ -23,5 +25,7 @@ router.use('/office', officeRoutes);
 router.use('/position', positionRoutes);
 router.use('/auth', authRoutes);
 router.use('/user', userRoutes);
+router.use('/subcribe', subcribeRoutes);
+router.use('/place', placeRoutes);
 
 module.exports = router;
