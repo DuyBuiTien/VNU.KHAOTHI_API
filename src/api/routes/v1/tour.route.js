@@ -1,6 +1,6 @@
 const express = require('express');
 const { validate } = require('express-validation');
-const controller = require('../../controllers/place.controller');
+const controller = require('../../controllers/tour.controller');
 const { authorize, LOGGED_USER, ADMIN } = require('../../middlewares/auth');
 const { listUsers, updateUser, updatePassword } = require('../../validations/user.validation');
 
@@ -20,5 +20,4 @@ router
     .put(controller.update)
     //xóa
     .delete(controller.remove)
-
 module.exports = router;

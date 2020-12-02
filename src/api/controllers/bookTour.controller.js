@@ -3,16 +3,31 @@ const { omit } = require('lodash');
 
 const db = require('../../config/mssql');
 
-const Place = db.place;
+const BookTour = db.bookTour;
 
 const { Op } = db.Sequelize;
 
 exports.findOne = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const attributes = ['id', 'title', 'sumHotel', 'image','isFeatured'];
+    const attributes = [
+      'id',
+      'email',
+      'name',
+      'phoneNumber',
+      'specialRequirement',
+      'tourCode',
+      'tour_id',
+      'favoritePlace',
+      'dateStart',
+      'dateEnd',
+      'sumPeople',
+      'sumChildren5to12',
+      'sumChildrenOver5',
+      'status',
+    ];
 
-    Place.findOne({
+    BookTour.findOne({
       where: { id },
       attributes,
     })
@@ -23,9 +38,9 @@ exports.findOne = async (req, res, next) => {
   }
 };
 exports.remove = (req, res, next) => {
-  const { id } = req.params;
+  const { id } = req.query;
 
-  Place.destroy({
+  BookTour.destroy({
     where: {
       id,
     },
@@ -35,8 +50,8 @@ exports.remove = (req, res, next) => {
 };
 
 exports.update = async (req, res, next) => {
-  const { id } = req.params;
-  let item = await Place.findByPk(id);
+  const { id } = req.query;
+  let item = await BookTour.findByPk(id);
 
   const updatedItem = omit(req.body, ['']);
   item = Object.assign(item, updatedItem);
@@ -50,8 +65,7 @@ exports.create = async (req, res, next) => {
   try {
     const itemData = omit(req.body, '');
 
-
-    const item = await Place.create(itemData)
+    const item = await BookTour.create(itemData)
       .then((result) => result)
       .catch((err) => next(err));
 
@@ -63,11 +77,26 @@ exports.create = async (req, res, next) => {
 };
 
 exports.findAll = async (req, res, next) => {
-  const { isFeatured,q, page, perpage } = req.query;
+  const { q, page, perpage } = req.query;
   const { limit, offset } = getPagination(page, perpage);
-  const condition = isFeatured? {isFeatured:isFeatured}: null;
-  const attributes = ['id', 'title','sumHotel','image','isFeatured'];
-  Place.findAndCountAll({
+  const condition = null;
+  const attributes = [
+    'id',
+    'email',
+    'name',
+    'phoneNumber',
+    'specialRequirement',
+    'tourCode',
+    'tour_id',
+    'favoritePlace',
+    'dateStart',
+    'dateEnd',
+    'sumPeople',
+    'sumChildren5to12',
+    'sumChildrenOver5',
+    'status',
+  ];
+  BookTour.findAndCountAll({
     where: condition,
     limit,
     offset,
@@ -79,24 +108,6 @@ exports.findAll = async (req, res, next) => {
     })
     .catch((e) => next(e));
 };
-exports.findAllFeatured = async (req, res, next) => {
-    const { q, page, perpage } = req.query;
-    const { limit, offset } = getPagination(page, perpage);
-    const condition = {isFeatured:true};
-    const attributes = ['id', 'title','sumHotel','image','isFeatured'];
-    Place.findAndCountAll({
-      where: condition,
-      limit,
-      offset,
-      attributes,
-    })
-      .then((data) => {
-        const response = getPagingData(data, page, limit);
-        res.json(response);
-      })
-      .catch((e) => next(e));
-  };
-
 const getPagination = (page, perpage) => {
   const limit = perpage ? +perpage : 10;
   const offset = page ? page * limit : 0;

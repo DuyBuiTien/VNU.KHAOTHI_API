@@ -3,16 +3,16 @@ const { omit } = require('lodash');
 
 const db = require('../../config/mssql');
 
-const Place = db.place;
+const Tour = db.tour;
 
 const { Op } = db.Sequelize;
 
 exports.findOne = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const attributes = ['id', 'title', 'sumHotel', 'image','isFeatured'];
+    const attributes = ['id','code', 'title', 'period', 'image','description','price','note','image','isFeatured'];
 
-    Place.findOne({
+    Tour.findOne({
       where: { id },
       attributes,
     })
@@ -25,7 +25,7 @@ exports.findOne = async (req, res, next) => {
 exports.remove = (req, res, next) => {
   const { id } = req.params;
 
-  Place.destroy({
+  Tour.destroy({
     where: {
       id,
     },
@@ -36,7 +36,7 @@ exports.remove = (req, res, next) => {
 
 exports.update = async (req, res, next) => {
   const { id } = req.params;
-  let item = await Place.findByPk(id);
+  let item = await Tour.findByPk(id);
 
   const updatedItem = omit(req.body, ['']);
   item = Object.assign(item, updatedItem);
@@ -51,7 +51,7 @@ exports.create = async (req, res, next) => {
     const itemData = omit(req.body, '');
 
 
-    const item = await Place.create(itemData)
+    const item = await Tour.create(itemData)
       .then((result) => result)
       .catch((err) => next(err));
 
@@ -62,12 +62,14 @@ exports.create = async (req, res, next) => {
   }
 };
 
+
 exports.findAll = async (req, res, next) => {
-  const { isFeatured,q, page, perpage } = req.query;
+  const { place_id,isFeatured, q, page, perpage } = req.query;
+  //const { place_id } = req.params;
   const { limit, offset } = getPagination(page, perpage);
-  const condition = isFeatured? {isFeatured:isFeatured}: null;
-  const attributes = ['id', 'title','sumHotel','image','isFeatured'];
-  Place.findAndCountAll({
+  const condition = [ {place_id: place_id},isFeatured? {isFeatured:isFeatured}: null ];
+  const attributes = ['id', 'code', 'title', 'period', 'description', 'price', 'note', 'isFeatured','image', 'place_id'];
+  Tour.findAndCountAll({
     where: condition,
     limit,
     offset,
@@ -80,22 +82,22 @@ exports.findAll = async (req, res, next) => {
     .catch((e) => next(e));
 };
 exports.findAllFeatured = async (req, res, next) => {
-    const { q, page, perpage } = req.query;
-    const { limit, offset } = getPagination(page, perpage);
-    const condition = {isFeatured:true};
-    const attributes = ['id', 'title','sumHotel','image','isFeatured'];
-    Place.findAndCountAll({
-      where: condition,
-      limit,
-      offset,
-      attributes,
+  const { q, page, perpage } = req.query;
+  const { limit, offset } = getPagination(page, perpage);
+  const condition = { isFeatured: true };
+  const attributes = ['id', 'code', 'title', 'period', 'description', 'price', 'note', 'isFeatured', 'place_id'];
+  Tour.findAndCountAll({
+    where: condition,
+    limit,
+    offset,
+    attributes,
+  })
+    .then((data) => {
+      const response = getPagingData(data, page, limit);
+      res.json(response);
     })
-      .then((data) => {
-        const response = getPagingData(data, page, limit);
-        res.json(response);
-      })
-      .catch((e) => next(e));
-  };
+    .catch((e) => next(e));
+};
 
 const getPagination = (page, perpage) => {
   const limit = perpage ? +perpage : 10;
