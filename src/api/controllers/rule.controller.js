@@ -3,14 +3,14 @@ const { omit } = require('lodash');
 
 const db = require('../../config/mssql');
 
-const Service = db.service;
+const Rule = db.rule;
 
 exports.findByTourDetailId = async (req, res, next) => {
     try {
-        const attributes = ['id', 'title', 'icon', 'tourDetail_id'];
+        const attributes = ['id', 'title', 'contentData', 'tourDetail_id'];
         const { tourDetail_id } = req.params;
 
-        Service.findAndCountAll({
+        Rule.findAndCountAll({
             where: { tourDetail_id },
             attributes
         })
@@ -25,7 +25,7 @@ exports.create = async (req, res, next) => {
     try {
         const itemData = omit(req.body, 'id');
 
-        const item = await Service.create(itemData)
+        const item = await Rule.create(itemData)
             .then((result) => result)
             .catch((err) => next(err));
 
@@ -38,7 +38,7 @@ exports.create = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
     const { id } = req.params;
-    let item = await Service.findByPk(id);
+    let item = await Rule.findByPk(id);
     if (!item) {
         res.sendStatus(400)
     }
@@ -54,7 +54,7 @@ exports.update = async (req, res, next) => {
 exports.remove = (req, res, next) => {
     const { id } = req.params;
 
-    Service.destroy({
+    Rule.destroy({
         where: {
             id,
         },
@@ -67,8 +67,8 @@ exports.findAll = async (req, res, next) => {
     const { q, page, perpage } = req.query;
     const { limit, offset } = getPagination(page, perpage);
     const condition = null;
-    const attributes = ['id', 'title', 'icon', 'tourDetail_id'];
-    Service.findAndCountAll({
+    const attributes = ['id', 'title', 'contentData', 'tourDetail_id'];
+    Rule.findAndCountAll({
         where: condition,
         limit,
         offset,

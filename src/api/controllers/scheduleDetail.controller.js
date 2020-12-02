@@ -5,7 +5,6 @@ const db = require('../../config/mssql');
 
 const ScheduleDetail = db.scheduleDetail;
 
-const { Op } = db.Sequelize;
 
 exports.findByTourDetailId = async (req, res, next) => {
     try {
@@ -41,13 +40,16 @@ exports.create = async (req, res, next) => {
 exports.update = async (req, res, next) => {
     const { id } = req.params;
     let item = await ScheduleDetail.findByPk(id);
+    if (!item) {
+        res.sendStatus(400)
+    }
 
     const updatedItem = omit(req.body, ['role', 'password']);
     item = Object.assign(item, updatedItem);
     item
         .save()
         .then((data) => res.json(data))
-        .catch((e) => next(e));
+        .catch((e) => res.json(e));
 };
 
 exports.remove = (req, res, next) => {
