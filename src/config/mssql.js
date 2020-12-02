@@ -36,6 +36,11 @@ db.place = require('../api/models/place.model')(sequelize, Sequelize);
 db.scheduleDetail = require('../api/models/scheduleDetail.model')(sequelize, Sequelize)
 db.service = require('../api/models/service.model')(sequelize, Sequelize)
 db.tourDetailDescription = require('../api/models/tourDetailDescription.model')(sequelize, Sequelize)
+db.tour = require('../api/models/tour.model')(sequelize, Sequelize);
+db.intro = require('../api/models/intro.model')(sequelize, Sequelize);
+db.bookTour = require('../api/models/bookTour.model')(sequelize, Sequelize);
+db.image = require('../api/models/image.model')(sequelize, Sequelize);
+
 
 const User = db.users;
 const Position = db.positions;
@@ -46,6 +51,11 @@ const Attachment = db.attachment;
 const Subcribe = db.subcribe;
 const Place = db.place;
 const ScheduleDetail = db.scheduleDetail;
+const Tour = db.tour;
+const Intro = db.intro;
+const BookTour = db.bookTour;
+const Image = db.image;
+
 
 Position.hasMany(User, { as: 'users' });
 User.belongsTo(Position, {

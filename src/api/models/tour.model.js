@@ -7,10 +7,10 @@ const { env, jwtSecret, jwtExpirationInterval } = require('../../config/vars');
 const APIError = require('../utils/APIError');
 
 module.exports = (sequelize, Sequelize) => {
-  class Subcribe extends Model {
+  class Tour extends Model {
     static async get(id) {
         try {
-          const item = await Subcribe.findByPk(id);
+          const item = await Tour.findByPk(id);
   
           if (item) {
             return item;
@@ -27,19 +27,47 @@ module.exports = (sequelize, Sequelize) => {
       }
   }
 
-  Subcribe.init(
+  Tour.init(
     {
-      email: {
+      code: {
         type: DataTypes.STRING,
+        allowNull: true,
+      },
+      title: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
+      period: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      description: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
+      price: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
+      note: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
+      isFeatured: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+      },
+      image: {
+        type: DataTypes.TEXT,
         allowNull: true,
       },
     },
     {
       sequelize,
-      modelName: 'Subcribe',
+      modelName: 'Tour',
       freezeTableName: true,
     },
   );
 
-  return Subcribe;
+  return Tour;
 };

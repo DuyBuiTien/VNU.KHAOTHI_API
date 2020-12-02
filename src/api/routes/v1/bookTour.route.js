@@ -1,13 +1,16 @@
 const express = require('express');
 const { validate } = require('express-validation');
-const controller = require('../../controllers/user.controller');
+const controller = require('../../controllers/bookTour.controller');
 const { authorize, LOGGED_USER, ADMIN } = require('../../middlewares/auth');
 const { listUsers, updateUser, updatePassword } = require('../../validations/user.validation');
 
 const router = express.Router();
 
-router.route('/GetUserInfo').get(controller.GetUserInfo);
-router.route('/ListUser').get(controller.ListUser);
-router.route('/UploadProfilePicture').post(controller.UploadProfilePicture);
+router
+    .route('/')
+    .get(controller.findAll)
+    .post(controller.create)
+    .put(controller.update)
+    .delete(controller.remove)
 
 module.exports = router;

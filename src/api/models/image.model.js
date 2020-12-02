@@ -7,51 +7,51 @@ const { env, jwtSecret, jwtExpirationInterval } = require('../../config/vars');
 const APIError = require('../utils/APIError');
 
 module.exports = (sequelize, Sequelize) => {
-  class Place extends Model {
+  class Image extends Model {
     static async get(id) {
-      try {
-        const item = await Place.findByPk(id);
-
-        if (item) {
-          return item;
+        try {
+          const item = await Image.findByPk(id);
+  
+          if (item) {
+            return item;
+          }
+  
+          throw new APIError({
+            message: 'Office does not exist',
+            status: httpStatus.NOT_FOUND,
+          });
+        } catch (error) {
+          console.log(error);
+          throw error;
         }
-
-        throw new APIError({
-          message: 'Place does not exist',
-          status: httpStatus.NOT_FOUND,
-        });
-      } catch (error) {
-        console.log(error);
-        throw error;
       }
-    }
   }
 
-  Place.init(
+  Image.init(
     {
-      title: {
+      imageUrl: {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      sumHotel: {
+      tourDetail_id: {
         type: DataTypes.INTEGER,
         allowNull: true,
       },
-      image: {
-        type: DataTypes.STRING,
+      isHeader: {
+        type: DataTypes.BOOLEAN,
         allowNull: true,
       },
-      isFeatured: {
-        type: DataTypes.BOOLEAN,
+      place_id: {
+        type: DataTypes.INTEGER,
         allowNull: true,
       },
     },
     {
       sequelize,
-      modelName: 'Place',
+      modelName: 'Image',
       freezeTableName: true,
     },
   );
 
-  return Place;
+  return Image;
 };
