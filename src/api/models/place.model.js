@@ -10,14 +10,14 @@ module.exports = (sequelize, Sequelize) => {
   class Place extends Model {
     static async get(id) {
       try {
-        const item = await Office.findByPk(id);
+        const item = await Place.findByPk(id);
 
         if (item) {
           return item;
         }
 
         throw new APIError({
-          message: 'Office does not exist',
+          message: 'Place does not exist',
           status: httpStatus.NOT_FOUND,
         });
       } catch (error) {
