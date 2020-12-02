@@ -6,6 +6,10 @@ const { listUsers, updateUser, updatePassword } = require('../../validations/use
 
 const router = express.Router();
 
-router.route('/GetListSubcriber').get(controller.GetListSubcriber);
+router
+    .route('/')
+    .get(controller.findAll)
+    .post(controller.create)
+    .delete(controller.remove)
 
 module.exports = router;

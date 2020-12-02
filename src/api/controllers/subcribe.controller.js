@@ -7,7 +7,35 @@ const Subcribe = db.subcribe;
 
 const { Op } = db.Sequelize;
 
-exports.GetListSubcriber = async (req, res, next) => {
+exports.remove = (req, res, next) => {
+  const { id } = req.params;
+
+  Subcribe.destroy({
+    where: {
+      id,
+    },
+  })
+    .then((data) => res.json(data))
+    .catch((e) => next(e));
+};
+
+exports.create = async (req, res, next) => {
+  try {
+    const itemData = omit(req.body, '');
+
+
+    const item = await Subcribe.create(itemData)
+      .then((result) => result)
+      .catch((err) => next(err));
+
+    res.status(httpStatus.CREATED);
+    return res.json(item);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.findAll = async (req, res, next) => {
   const { q, page, perpage } = req.query;
   const { limit, offset } = getPagination(page, perpage);
   const condition = null;

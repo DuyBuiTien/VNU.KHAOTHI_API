@@ -101,6 +101,7 @@ let avatarUploadFile = multer(storageAvatar).single('avatar');
 exports.UploadProfilePicture = (req, res, next) => {
   avatarUploadFile(req, res, async (err) => {
     try {
+      console.log(req.file)
       if (!req.file) {
         throw new APIError({
           message: 'Please select a file.',
