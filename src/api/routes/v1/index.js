@@ -7,6 +7,9 @@ const officeRoutes = require('./office.route');
 const positionRoutes = require('./position.route');
 const subcribeRoutes = require('./subcribe.route');
 const placeRoutes = require('./place.route');
+const scheduleDetailRoutes = require('./scheduleDetail.route');
+const serviceRoutes = require('./service.route');
+const tourDetailDescriptionRoutes = require('./tourDetailDescription.route')
 
 const router = express.Router();
 
@@ -27,5 +30,8 @@ router.use('/auth', authRoutes);
 router.use('/user', userRoutes);
 router.use('/subcribe', subcribeRoutes);
 router.use('/place', placeRoutes);
+router.use('/scheduleDetail', scheduleDetailRoutes);
+router.use('/service', serviceRoutes);
+router.use('/tourDetailDescription', tourDetailDescriptionRoutes)
 
 module.exports = router;
