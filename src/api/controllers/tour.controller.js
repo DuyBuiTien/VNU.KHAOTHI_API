@@ -10,7 +10,7 @@ const { Op } = db.Sequelize;
 exports.findOne = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const attributes = ['id','code', 'title', 'period', 'image','description','price','note','image','isFeatured'];
+    const attributes = ['id','', 'title', 'period', 'image','description','price','note','image','isFeatured'];
 
     Tour.findOne({
       where: { id },
@@ -68,7 +68,7 @@ exports.findAll = async (req, res, next) => {
   //const { place_id } = req.params;
   const { limit, offset } = getPagination(page, perpage);
   const condition = [ {place_id: place_id},isFeatured? {isFeatured:isFeatured}: null ];
-  const attributes = ['id', 'code', 'title', 'period', 'description', 'price', 'note', 'isFeatured','image', 'place_id'];
+  const attributes = ['id', 'title', 'period', 'description', 'price', 'note', 'isFeatured','image', 'place_id'];
   Tour.findAndCountAll({
     where: condition,
     limit,
@@ -85,7 +85,7 @@ exports.findAllFeatured = async (req, res, next) => {
   const { q, page, perpage } = req.query;
   const { limit, offset } = getPagination(page, perpage);
   const condition = { isFeatured: true };
-  const attributes = ['id', 'code', 'title', 'period', 'description', 'price', 'note', 'isFeatured', 'place_id'];
+  const attributes = ['id', 'title', 'period', 'description', 'price', 'note', 'isFeatured', 'place_id'];
   Tour.findAndCountAll({
     where: condition,
     limit,
