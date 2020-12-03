@@ -80,7 +80,7 @@ exports.findAll = async (req, res, next) => {
     'updatedAt',
   ];
   Tour.findAndCountAll({
-    where: condition,
+    where: place_id?condition:null,
     limit,
     offset,
     attributes,
