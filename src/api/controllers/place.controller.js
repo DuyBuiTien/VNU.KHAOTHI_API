@@ -10,7 +10,7 @@ const { Op } = db.Sequelize;
 exports.findOne = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const attributes = ['id', 'title', 'sumHotel', 'image','isFeatured'];
+    const attributes = ['id', 'title', 'sumHotel', 'image', 'isFeatured'];
 
     Place.findOne({
       where: { id },
@@ -50,7 +50,6 @@ exports.create = async (req, res, next) => {
   try {
     const itemData = omit(req.body, '');
 
-
     const item = await Place.create(itemData)
       .then((result) => result)
       .catch((err) => next(err));
@@ -63,10 +62,10 @@ exports.create = async (req, res, next) => {
 };
 
 exports.findAll = async (req, res, next) => {
-  const { isFeatured,q, page, perpage } = req.query;
+  const { isFeatured, q, page, perpage } = req.query;
   const { limit, offset } = getPagination(page, perpage);
-  const condition = isFeatured? {isFeatured:isFeatured}: null;
-  const attributes = ['id', 'title','sumHotel','image','isFeatured'];
+  const condition = isFeatured ? { isFeatured: isFeatured } : null;
+  const attributes = ['id', 'title', 'sumHotel', 'image', 'isFeatured', 'createdAt', 'updatedAt'];
   Place.findAndCountAll({
     where: condition,
     limit,
@@ -80,22 +79,22 @@ exports.findAll = async (req, res, next) => {
     .catch((e) => next(e));
 };
 exports.findAllFeatured = async (req, res, next) => {
-    const { q, page, perpage } = req.query;
-    const { limit, offset } = getPagination(page, perpage);
-    const condition = {isFeatured:true};
-    const attributes = ['id', 'title','sumHotel','image','isFeatured'];
-    Place.findAndCountAll({
-      where: condition,
-      limit,
-      offset,
-      attributes,
+  const { q, page, perpage } = req.query;
+  const { limit, offset } = getPagination(page, perpage);
+  const condition = { isFeatured: true };
+  const attributes = ['id', 'title', 'sumHotel', 'image', 'isFeatured', 'createdAt', 'updatedAt'];
+  Place.findAndCountAll({
+    where: condition,
+    limit,
+    offset,
+    attributes,
+  })
+    .then((data) => {
+      const response = getPagingData(data, page, limit);
+      res.json(response);
     })
-      .then((data) => {
-        const response = getPagingData(data, page, limit);
-        res.json(response);
-      })
-      .catch((e) => next(e));
-  };
+    .catch((e) => next(e));
+};
 
 const getPagination = (page, perpage) => {
   const limit = perpage ? +perpage : 10;

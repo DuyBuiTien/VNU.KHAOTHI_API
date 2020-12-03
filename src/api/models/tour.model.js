@@ -9,30 +9,26 @@ const APIError = require('../utils/APIError');
 module.exports = (sequelize, Sequelize) => {
   class Tour extends Model {
     static async get(id) {
-        try {
-          const item = await Tour.findByPk(id);
-  
-          if (item) {
-            return item;
-          }
-  
-          throw new APIError({
-            message: 'Office does not exist',
-            status: httpStatus.NOT_FOUND,
-          });
-        } catch (error) {
-          console.log(error);
-          throw error;
+      try {
+        const item = await Tour.findByPk(id);
+
+        if (item) {
+          return item;
         }
+
+        throw new APIError({
+          message: 'Office does not exist',
+          status: httpStatus.NOT_FOUND,
+        });
+      } catch (error) {
+        console.log(error);
+        throw error;
       }
+    }
   }
 
   Tour.init(
     {
-      code: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
       title: {
         type: DataTypes.TEXT,
         allowNull: true,
