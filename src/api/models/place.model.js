@@ -17,7 +17,7 @@ module.exports = (sequelize, Sequelize) => {
         }
 
         throw new APIError({
-          message: 'Office does not exist',
+          message: 'Place does not exist',
           status: httpStatus.NOT_FOUND,
         });
       } catch (error) {
