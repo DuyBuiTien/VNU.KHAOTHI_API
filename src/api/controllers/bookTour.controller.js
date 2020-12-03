@@ -95,6 +95,8 @@ exports.findAll = async (req, res, next) => {
     'sumChildren5to12',
     'sumChildrenOver5',
     'status',
+    'createdAt',
+    'updatedAt'
   ];
   BookTour.findAndCountAll({
     where: condition,
