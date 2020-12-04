@@ -14,6 +14,8 @@ exports.findByTourDetailId = async (req, res, next) => {
         '[TienNghis].[ClassBieuTuong], [TienNghis].[ClassMauBieuTuong] ,[DBTripBrick].[dbo].[Services].[icon_id]' +
         ',[DBTripBrick].[dbo].[Services].[tourDetail_id]' +
         ',[DBTripBrick].[dbo].[Services].[createdAt]' +
+        ',[DBTripBrick].[dbo].[TienNghis].[TieuDe]' +
+        ',[DBTripBrick].[dbo].[TienNghis].[NhomTienNghiID]' +
         ',[DBTripBrick].[dbo].[Services].[updatedAt]' +
         'FROM [DBTripBrick].[dbo].[Services]' +
         'INNER JOIN [DBTripBrick].[dbo].[TienNghis]' +
