@@ -35,5 +35,11 @@ db.tourDetail = require('../api/models/tourDetail.model')(sequelize, Sequelize);
 db.iconGroup = require('../api/models/icongroup.model')(sequelize, Sequelize);
 db.icon = require('../api/models/icon.model')(sequelize, Sequelize);
 
+//Relationship
+// db.iconGroup.hasMany(db.icon)
+// db.icon.belongsTo(db.iconGroup)
+db.service.hasMany(db.icon)
+db.icon.belongsTo(db.service)
+
 
 module.exports = db;

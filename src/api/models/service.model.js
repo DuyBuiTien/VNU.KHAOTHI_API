@@ -9,12 +9,8 @@ module.exports = (sequelize, Sequelize) => {
 
     Service.init(
         {
-            title: {
-                type: DataTypes.STRING,
-                allowNull: true,
-            },
-            icon: {
-                type: DataTypes.STRING,
+            icon_id: {
+                type: DataTypes.INTEGER,
                 allowNull: true,
             },
             tourDetail_id: {
