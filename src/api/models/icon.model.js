@@ -17,10 +17,6 @@ module.exports = (sequelize, Sequelize) => {
                 type: DataTypes.INTEGER,
                 allowNull: true,
             },
-            NhomTienNghiID: {
-                type: DataTypes.INTEGER,
-                allowNull: true
-            },
             ClassBieuTuong: {
                 type: DataTypes.STRING,
                 allowNull: true

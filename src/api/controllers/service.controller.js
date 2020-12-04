@@ -1,24 +1,29 @@
 const httpStatus = require('http-status');
 const { omit } = require('lodash');
+const { QueryTypes } = require('sequelize');
 
 const db = require('../../config/mssql');
 
 const Service = db.service;
 
 exports.findByTourDetailId = async (req, res, next) => {
-    try {
-        const attributes = ['id', 'title', 'icon', 'tourDetail_id'];
-        const { tourDetail_id } = req.params;
-
-        Service.findAndCountAll({
-            where: { tourDetail_id },
-            attributes
-        })
-            .then((results) => res.json(results))
-            .catch((e) => next(e));
-    } catch (error) {
-        next(error);
-    }
+    const { tourDetail_id } = req.params;
+    const val = await db.sequelize.query(
+        'SELECT TOP (1000)' +
+        '[DBTripBrick].[dbo].[Services].[id], ' +
+        '[TienNghis].[ClassBieuTuong], [TienNghis].[ClassMauBieuTuong] ,[DBTripBrick].[dbo].[Services].[icon_id]' +
+        ',[DBTripBrick].[dbo].[Services].[tourDetail_id]' +
+        ',[DBTripBrick].[dbo].[Services].[createdAt]' +
+        ',[DBTripBrick].[dbo].[Services].[updatedAt]' +
+        'FROM [DBTripBrick].[dbo].[Services]' +
+        'INNER JOIN [DBTripBrick].[dbo].[TienNghis]' +
+        'ON [DBTripBrick].[dbo].[Services].[icon_id] = [DBTripBrick].[dbo].[TienNghis].[ID]' +
+        `where [DBTripBrick].[dbo].[Services].[tourDetail_id] = ${tourDetail_id}`,
+        {
+            type: QueryTypes.SELECT
+        }
+    )
+    res.send(val)
 }
 
 exports.create = async (req, res, next) => {
