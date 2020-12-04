@@ -9,6 +9,10 @@ const introRoutes = require('./intro.route');
 const bookTourRoutes = require('./bookTour.route');
 const imageRoutes = require('./image.route');
 const attachmentRoutes = require('./attachment.route');
+const ruleRoutes = require('./rule.route');
+const tourDetailRoutes = require('./tourDetail.route');
+const iconGroupRoutes = require('./icongroup.route');
+const iconRoutes = require('./icon.route');
 
 
 const router = express.Router();
@@ -32,5 +36,10 @@ router.use('/intro', introRoutes);
 router.use('/bookTour', bookTourRoutes);
 router.use('/image', imageRoutes);
 router.use('/attachment', attachmentRoutes);
+router.use('/rule', ruleRoutes);
+router.use('/tourDetail', tourDetailRoutes);
+router.use('/iconGroup', iconGroupRoutes);
+router.use('/icon', iconRoutes);
+
 
 module.exports = router;

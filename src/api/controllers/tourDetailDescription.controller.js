@@ -7,7 +7,7 @@ const TourDetailDescription = db.tourDetailDescription;
 
 exports.findByTourDetailId = async (req, res, next) => {
     try {
-        const attributes = ['id', 'title', 'contentData', 'tourDetail_id'];
+        const attributes = ['id', 'contentData', 'tourDetail_id'];
         const { tourDetail_id } = req.params;
 
         TourDetailDescription.findAndCountAll({
@@ -39,6 +39,9 @@ exports.create = async (req, res, next) => {
 exports.update = async (req, res, next) => {
     const { id } = req.params;
     let item = await TourDetailDescription.findByPk(id);
+    if (!item) {
+        res.sendStatus(400)
+    }
 
     const updatedItem = omit(req.body, ['role', 'password']);
     item = Object.assign(item, updatedItem);
@@ -64,7 +67,7 @@ exports.findAll = async (req, res, next) => {
     const { q, page, perpage } = req.query;
     const { limit, offset } = getPagination(page, perpage);
     const condition = null;
-    const attributes = ['id', 'title', 'contentData', 'tourDetail_id'];
+    const attributes = ['id', 'contentData', 'tourDetail_id'];
     TourDetailDescription.findAndCountAll({
         where: condition,
         limit,
