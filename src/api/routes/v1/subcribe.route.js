@@ -11,5 +11,6 @@ router
     .get(controller.findAll)
     .post(controller.create)
     .delete(controller.remove)
-
+router
+    .route('/:id').patch(controller.update)
 module.exports = router;

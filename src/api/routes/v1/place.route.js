@@ -20,6 +20,7 @@ router
     .put(controller.update)
     //xóa
     .delete(controller.remove)
+    .patch(controller.updateItem)
 router
     .route('/photos')
     //tìm kiếm

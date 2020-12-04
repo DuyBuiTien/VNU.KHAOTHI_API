@@ -7,6 +7,21 @@ const Subcribe = db.subcribe;
 
 const { Op } = db.Sequelize;
 
+exports.update = async (req, res, next) => {
+  const { id } = req.params;
+  let item = await Subcribe.findByPk(id);
+  if (!item) {
+      res.sendStatus(400)
+  }
+
+  const updatedItem = omit(req.body, ['']);
+  item = Object.assign(item, updatedItem);
+  item
+      .save()
+      .then((data) => res.json(data))
+      .catch((e) => next(e));
+};
+
 exports.remove = (req, res, next) => {
   const { id } = req.params;
 

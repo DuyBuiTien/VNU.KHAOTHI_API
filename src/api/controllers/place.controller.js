@@ -89,7 +89,17 @@ exports.remove = (req, res, next) => {
     .then((data) => res.json(data))
     .catch((e) => next(e));
 };
+exports.updateItem = async (req, res, next) => {
+  const { id } = req.params;
+  let item = await Place.findByPk(id);
 
+  const updatedItem = omit(req.body, ['']);
+  item = Object.assign(item, updatedItem);
+  item
+    .save()
+    .then((data) => res.json(data))
+    .catch((e) => next(e));
+};
 exports.update = async (req, res, next) => {
   const { id } = req.params;
   let item = await Place.findByPk(id);
