@@ -26,10 +26,6 @@ module.exports = (sequelize, Sequelize) => {
 
     ScheduleDetail.init(
         {
-            title: {
-                type: DataTypes.STRING,
-                allowNull: true,
-            },
             contentData: {
                 type: DataTypes.STRING,
                 allowNull: true,

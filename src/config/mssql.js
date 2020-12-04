@@ -32,6 +32,8 @@ db.bookTour = require('../api/models/bookTour.model')(sequelize, Sequelize);
 db.image = require('../api/models/image.model')(sequelize, Sequelize);
 db.rule = require('../api/models/rule.model')(sequelize, Sequelize);
 db.tourDetail = require('../api/models/tourDetail.model')(sequelize, Sequelize);
+db.iconGroup = require('../api/models/icongroup.model')(sequelize, Sequelize);
+db.icon = require('../api/models/icon.model')(sequelize, Sequelize);
 
 
 module.exports = db;

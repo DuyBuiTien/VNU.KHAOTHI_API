@@ -7,7 +7,7 @@ const TourDetailDescription = db.tourDetailDescription;
 
 exports.findByTourDetailId = async (req, res, next) => {
     try {
-        const attributes = ['id', 'title', 'contentData', 'tourDetail_id'];
+        const attributes = ['id', 'contentData', 'tourDetail_id'];
         const { tourDetail_id } = req.params;
 
         TourDetailDescription.findAndCountAll({
@@ -67,7 +67,7 @@ exports.findAll = async (req, res, next) => {
     const { q, page, perpage } = req.query;
     const { limit, offset } = getPagination(page, perpage);
     const condition = null;
-    const attributes = ['id', 'title', 'contentData', 'tourDetail_id'];
+    const attributes = ['id', 'contentData', 'tourDetail_id'];
     TourDetailDescription.findAndCountAll({
         where: condition,
         limit,
