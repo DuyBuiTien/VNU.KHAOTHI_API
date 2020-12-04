@@ -1,6 +1,6 @@
 const express = require('express');
 const { validate } = require('express-validation');
-const controller = require('../../controllers/service.controller');
+const controller = require('../../controllers/scheduleDetail.controller');
 
 const router = express.Router();
 
@@ -9,6 +9,7 @@ router.route('/').get(controller.findAll)
 
 router.route('/:tourDetail_id')
     .get(controller.findByTourDetailId)
+
 
 router.route('/:id')
     .patch(controller.update)

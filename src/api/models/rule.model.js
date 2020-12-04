@@ -4,28 +4,15 @@ const { env, jwtSecret, jwtExpirationInterval } = require('../../config/vars');
 const APIError = require('../utils/APIError');
 
 module.exports = (sequelize, Sequelize) => {
-    class ScheduleDetail extends Model {
-        static async get(id) {
-            try {
-                const item = await ScheduleDetail.findByPk(id);
-
-                if (item) {
-                    return item;
-                }
-
-                throw new APIError({
-                    message: 'Schedule detail does not exist',
-                    status: httpStatus.NOT_FOUND,
-                });
-            } catch (error) {
-                console.log(error);
-                throw error;
-            }
-        }
+    class Rule extends Model {
     }
 
-    ScheduleDetail.init(
+    Rule.init(
         {
+            title: {
+                type: DataTypes.STRING,
+                allowNull: true,
+            },
             contentData: {
                 type: DataTypes.STRING,
                 allowNull: true,
@@ -37,10 +24,10 @@ module.exports = (sequelize, Sequelize) => {
         },
         {
             sequelize,
-            modelName: 'ScheduleDetails',
+            modelName: 'Rule',
             freezeTableName: true,
         },
     );
 
-    return ScheduleDetail;
+    return Rule;
 };

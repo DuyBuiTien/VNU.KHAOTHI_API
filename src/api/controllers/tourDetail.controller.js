@@ -3,16 +3,15 @@ const { omit } = require('lodash');
 
 const db = require('../../config/mssql');
 
-const ScheduleDetail = db.scheduleDetail;
-
+const TourDetail = db.tourDetail;
 
 exports.findByTourDetailId = async (req, res, next) => {
     try {
-        const attributes = ['id', 'contentData', 'tourDetail_id'];
-        const { tourDetail_id } = req.params;
+        const attributes = ['id', 'code', 'title', 'isFeatured', 'priceTour', 'phoneNumber', 'startFrom', 'period', 'vehicle', 'createdAt', 'updatedAt', 'tour_id'];
+        const { tour_id } = req.params;
 
-        ScheduleDetail.findAndCountAll({
-            where: { tourDetail_id },
+        TourDetail.findAndCountAll({
+            where: { tour_id },
             attributes
         })
             .then((results) => res.json(results))
@@ -26,7 +25,7 @@ exports.create = async (req, res, next) => {
     try {
         const itemData = omit(req.body, 'id');
 
-        const item = await ScheduleDetail.create(itemData)
+        const item = await TourDetail.create(itemData)
             .then((result) => result)
             .catch((err) => next(err));
 
@@ -39,7 +38,7 @@ exports.create = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
     const { id } = req.params;
-    let item = await ScheduleDetail.findByPk(id);
+    let item = await TourDetail.findByPk(id);
     if (!item) {
         res.sendStatus(400)
     }
@@ -49,13 +48,13 @@ exports.update = async (req, res, next) => {
     item
         .save()
         .then((data) => res.json(data))
-        .catch((e) => res.json(e));
+        .catch((e) => next(e));
 };
 
 exports.remove = (req, res, next) => {
     const { id } = req.params;
 
-    ScheduleDetail.destroy({
+    TourDetail.destroy({
         where: {
             id,
         },
@@ -68,8 +67,8 @@ exports.findAll = async (req, res, next) => {
     const { q, page, perpage } = req.query;
     const { limit, offset } = getPagination(page, perpage);
     const condition = null;
-    const attributes = ['id', 'contentData', 'tourDetail_id'];
-    ScheduleDetail.findAndCountAll({
+    const attributes = ['id', 'code', 'title', 'isFeatured', 'priceTour', 'phoneNumber', 'startFrom', 'period', 'vehicle', 'createdAt', 'updatedAt', 'tour_id'];
+    TourDetail.findAndCountAll({
         where: condition,
         limit,
         offset,
