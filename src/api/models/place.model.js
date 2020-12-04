@@ -45,6 +45,10 @@ module.exports = (sequelize, Sequelize) => {
         type: DataTypes.BOOLEAN,
         allowNull: true,
       },
+      placeOrder: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
     },
     {
       sequelize,
