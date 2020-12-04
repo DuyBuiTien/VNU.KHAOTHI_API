@@ -20,5 +20,8 @@ router
     .put(controller.update)
     //xóa
     .delete(controller.remove)
-
+router
+    .route('/photos')
+    //tìm kiếm
+    .post(controller.addPhotos)
 module.exports = router;
