@@ -10,7 +10,7 @@ const { Op } = db.Sequelize;
 exports.findOne = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const attributes = ['id', 'title', 'period', 'image', 'description', 'price', 'note', 'image', 'isFeatured'];
+    const attributes = ['id', 'place_id', 'title', 'period', 'image', 'description', 'price', 'note', 'image', 'isFeatured'];
 
     Tour.findOne({
       where: { id },
@@ -80,7 +80,7 @@ exports.findAll = async (req, res, next) => {
     'updatedAt',
   ];
   Tour.findAndCountAll({
-    where: place_id?condition:null,
+    where: place_id ? condition : null,
     limit,
     offset,
     attributes,
