@@ -43,7 +43,7 @@ exports.update = async (req, res, next) => {
         res.sendStatus(400)
     }
 
-    const updatedItem = omit(req.body, ['role', 'password']);
+    const updatedItem = omit(req.body, ['']);
     item = Object.assign(item, updatedItem);
     item
         .save()
