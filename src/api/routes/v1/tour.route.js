@@ -1,23 +1,18 @@
 const express = require('express');
 const { validate } = require('express-validation');
-const controller = require('../../controllers/tour.controller');
-const { authorize, LOGGED_USER, ADMIN } = require('../../middlewares/auth');
-const { listUsers, updateUser, updatePassword } = require('../../validations/user.validation');
+const controller = require('../../controllers/tourDetail.controller');
 
 const router = express.Router();
 
-router
-    .route('/')
-    //tìm kiếm
-    .get(controller.findAll)
-    //thêm mới
-    .post(controller.create);
-router
-    .route('/:id')
-    //chi tiết
-    .get(controller.findOne)
-    //cập nhật
-    .put(controller.update)
-    //xóa
+router.route('/').get(controller.findAll)
+    .post(controller.create)
+
+router.route('/:tour_id')
+    .get(controller.findByTourDetailId)
+
+
+router.route('/:id')
+    .patch(controller.update)
     .delete(controller.remove)
+
 module.exports = router;
