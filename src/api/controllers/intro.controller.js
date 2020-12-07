@@ -65,7 +65,7 @@ exports.findAll = async (req, res, next) => {
   const { q, page, perpage } = req.query;
   const { limit, offset } = getPagination(page, perpage);
   const condition = null;
-  const attributes = ['id', 'title', 'contentData'];
+  const attributes = ['id', 'title', 'contentData', 'createdAt','updatedAt'];
   Intro.findAndCountAll({
     where: condition,
     limit,
