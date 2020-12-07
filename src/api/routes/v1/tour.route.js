@@ -1,17 +1,18 @@
 const express = require('express');
 const { validate } = require('express-validation');
-const controller = require('../../controllers/tourDetail.controller');
+const controller = require('../../controllers/tour.controller');
 
 const router = express.Router();
 
 router.route('/').get(controller.findAll)
     .post(controller.create)
 
-router.route('/:tour_id')
-    .get(controller.findByTourDetailId)
+router.route('/featured')
+    .get(controller.findAllFeatured)
 
 
 router.route('/:id')
+    .get(controller.findOne)
     .patch(controller.update)
     .delete(controller.remove)
 
