@@ -16,8 +16,7 @@ const Image = db.image;
 
 const { Op } = db.Sequelize;
 
-const photosUploadFile = multer(storagePhoto).single('upload');
-
+const photosUploadFile = multer(storagePhoto).single('photos');
 exports.addPhotos = (req, res, next) => {
   const currentUser = req.user;
 
@@ -36,27 +35,12 @@ exports.addPhotos = (req, res, next) => {
 
       // delete old file
       fs.unlinkSync(req.file.path);
-
-      const temp = {
-        uid: uuidv4(),
-        name: `${req.file.filename}.jpg`,
-        path: `/images/message/${req.file.filename}.jpg`,
-
-        status: 'done',
-        response: { status: 'success' },
-        linkProps: { download: 'image' },
-        thumbUrl: `${staticUrl}/images/message/${req.file.filename}.jpg`,
-      };
-
       const dataItem = {
         tourDetail_id: null,
         place_id: null,
-        imageUrl: `public/images/${req.file.filename}.jpg`,
+        imageUrl: `${staticUrl}/public/images/${req.file.filename}.jpg`,
       };
-      const imageCreated = await Image.create(dataItem)
-        .then((result) => result)
-        .catch((err) => next(err));
-      return res.json({ url: `${staticUrl}/public/images/${req.file.filename}.jpg`, id: imageCreated.dataValues.id});
+      return res.json(dataItem);
     } catch (error) {
       next(error);
     }
