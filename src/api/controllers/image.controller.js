@@ -38,7 +38,7 @@ exports.addPhotos = (req, res, next) => {
       const dataItem = {
         tourDetail_id: null,
         place_id: null,
-        imageUrl: `${staticUrl}/public/images/${req.file.filename}.jpg`,
+        url: `${staticUrl}/public/images/${req.file.filename}.jpg`,
       };
       return res.json(dataItem);
     } catch (error) {

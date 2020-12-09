@@ -29,16 +29,16 @@ module.exports = (sequelize, Sequelize) => {
 
   Image.init(
     {
-      imageUrl: {
+      uid: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      url: {
         type: DataTypes.STRING,
         allowNull: true,
       },
       tourDetail_id: {
         type: DataTypes.INTEGER,
-        allowNull: true,
-      },
-      isHeader: {
-        type: DataTypes.BOOLEAN,
         allowNull: true,
       },
       place_id: {
