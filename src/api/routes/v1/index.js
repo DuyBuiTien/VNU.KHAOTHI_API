@@ -13,6 +13,7 @@ const ruleRoutes = require('./rule.route');
 const tourDetailRoutes = require('./tourDetail.route');
 const iconGroupRoutes = require('./icongroup.route');
 const iconRoutes = require('./icon.route');
+const policyRoutes = require('./policy.route');
 
 
 const router = express.Router();
@@ -40,6 +41,6 @@ router.use('/rule', ruleRoutes);
 router.use('/tourDetail', tourDetailRoutes);
 router.use('/iconGroup', iconGroupRoutes);
 router.use('/icon', iconRoutes);
-
+router.use('/policy', policyRoutes);
 
 module.exports = router;

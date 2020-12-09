@@ -34,6 +34,7 @@ db.rule = require('../api/models/rule.model')(sequelize, Sequelize);
 db.tourDetail = require('../api/models/tourDetail.model')(sequelize, Sequelize);
 db.iconGroup = require('../api/models/icongroup.model')(sequelize, Sequelize);
 db.icon = require('../api/models/icon.model')(sequelize, Sequelize);
+db.policy = require('../api/models/policy.model')(sequelize, Sequelize);
 
 //Relationship
 // db.iconGroup.hasMany(db.icon)
