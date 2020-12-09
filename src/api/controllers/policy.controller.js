@@ -3,14 +3,14 @@ const { omit } = require('lodash');
 
 const db = require('../../config/mssql');
 
-const TourDetailDescription = db.tourDetailDescription;
+const Policy = db.policy;
 
 exports.findByTourDetailId = async (req, res, next) => {
     try {
         const attributes = ['id', 'contentData', 'tourDetail_id'];
         const { tourDetail_id } = req.params;
 
-        TourDetailDescription.findAndCountAll({
+        Policy.findAndCountAll({
             where: { tourDetail_id },
             attributes
         })
@@ -25,7 +25,7 @@ exports.create = async (req, res, next) => {
     try {
         const itemData = omit(req.body, 'id');
 
-        const item = await TourDetailDescription.create(itemData)
+        const item = await Policy.create(itemData)
             .then((result) => result)
             .catch((err) => next(err));
 
@@ -38,7 +38,7 @@ exports.create = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
     const { id } = req.params;
-    let item = await TourDetailDescription.findByPk(id);
+    let item = await Policy.findByPk(id);
     if (!item) {
         res.sendStatus(400)
     }
@@ -54,7 +54,7 @@ exports.update = async (req, res, next) => {
 exports.remove = (req, res, next) => {
     const { id } = req.params;
 
-    TourDetailDescription.destroy({
+    Policy.destroy({
         where: {
             id,
         },
@@ -68,7 +68,7 @@ exports.findAll = async (req, res, next) => {
     const { limit, offset } = getPagination(page, perpage);
     const condition = null;
     const attributes = ['id', 'contentData', 'tourDetail_id'];
-    TourDetailDescription.findAndCountAll({
+    Policy.findAndCountAll({
         where: condition,
         limit,
         offset,
@@ -91,12 +91,6 @@ const getPagingData = (data, page, limit) => {
     const totalPages = Math.ceil(totalItems / limit);
 
     return {
-        meta: {
-            total: totalItems,
-            pages: totalPages,
-            page: currentPage,
-            perpage: limit,
-        },
         data: listItems,
     };
 };
