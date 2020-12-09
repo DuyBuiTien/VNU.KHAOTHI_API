@@ -13,6 +13,7 @@ const storagePhoto = require('../utils/storagePhoto');
 const storageFile = require('../utils/storageFile');
 
 const Place = db.place;
+const Image = db.image;
 
 const { Op } = db.Sequelize;
 
@@ -22,6 +23,7 @@ exports.addPhotos = (req, res, next) => {
   const currentUser = req.user;
 
   photosUploadFile(req, res, async (err) => {
+    console.log(req.file.path);
     try {
       if (!req.file) {
         console.log(err);
@@ -56,7 +58,7 @@ exports.addPhotos = (req, res, next) => {
       // const imageCreated = await Image.create(dataItem)
       //   .then((result) => result)
       //   .catch((err) => next(err));
-      return res.json({ url: `${staticUrl}/public/images/${req.file.filename}.jpg`});
+      return res.json({ url: `${staticUrl}/public/images/${req.file.filename}.jpg` });
     } catch (error) {
       next(error);
     }
@@ -66,7 +68,7 @@ exports.addPhotos = (req, res, next) => {
 exports.findOne = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const attributes = ['id', 'title', 'sumHotel', 'image', 'isFeatured','placeOrder'];
+    const attributes = ['id', 'title', 'sumHotel', 'image', 'isFeatured', 'placeOrder'];
 
     Place.findOne({
       where: { id },
@@ -102,26 +104,46 @@ exports.updateItem = async (req, res, next) => {
 };
 exports.update = async (req, res, next) => {
   const { id } = req.params;
-  let item = await Place.findByPk(id);
 
-  const updatedItem = omit(req.body, ['']);
+  Image.destroy({
+    where: {
+      place_id: id,
+    },
+  })
+    .then((result) => result)
+    .catch((e) => next(e));
+
+  req.body.imagesHeader.forEach(async (i) => {
+    const temp = await Image.create(i)
+      .then((result) => result)
+      .catch((err) => next(err));
+  });
+
+  let item = await Place.findByPk(id);
+  const updatedItem = omit(req.body, ['imagesHeader']);
   item = Object.assign(item, updatedItem);
   item
     .save()
-    .then((data) => res.json(data))
+    .then((data) => res.json(id))
     .catch((e) => next(e));
 };
 
 exports.create = async (req, res, next) => {
   try {
-    const itemData = omit(req.body, '');
+    const itemData = omit(req.body, 'imagesHeader');
 
     const item = await Place.create(itemData)
       .then((result) => result)
       .catch((err) => next(err));
 
+    req.body.imagesHeader.forEach(async (i) => {
+      i.place_id = item.id;
+      const temp = await Image.create(i)
+        .then((result) => result)
+        .catch((err) => next(err));
+    });
     res.status(httpStatus.CREATED);
-    return res.json(item);
+    return res.json(item.id);
   } catch (error) {
     console.log(error);
   }
@@ -131,24 +153,37 @@ exports.findAll = async (req, res, next) => {
   const { isFeatured, q, page, perpage } = req.query;
   const { limit, offset } = getPagination(page, perpage);
   const condition = isFeatured ? { isFeatured: isFeatured } : null;
-  const attributes = ['id', 'title', 'sumHotel', 'image', 'isFeatured', 'createdAt', 'updatedAt','placeOrder'];
-  Place.findAndCountAll({
+  const attributes = ['id', 'title', 'sumHotel', 'image', 'isFeatured', 'createdAt', 'updatedAt', 'placeOrder'];
+
+  var places = await Place.findAndCountAll({
     where: condition,
     limit,
     offset,
     attributes,
-  })
-    .then((data) => {
-      const response = getPagingData(data, page, limit);
-      res.json(response);
-    })
-    .catch((e) => next(e));
+  });
+  var images = await Image.findAll({ where: { place_id: { [Op.gt]: 0 } } });
+  var responsePlace = [];
+  places.rows.forEach((item) => {
+    var tempItem = { ...item.toJSON(), imagesHeader: [] };
+    var temp = images.filter((i) => i.place_id == item.id);
+    tempItem.imagesHeader = temp;
+    responsePlace.push(tempItem);
+  });
+  const response = getPagingData({ count: places.count, rows: responsePlace }, page, limit);
+  res.json(response);
+  //var images = await Image.findAll({where: {id}})
+  // .then((data) => {
+  //   console.log(data.rows);
+  //   const response = getPagingData(data, page, limit);
+  //   res.json(response);
+  // })
+  // .catch((e) => next(e));
 };
 exports.findAllFeatured = async (req, res, next) => {
   const { q, page, perpage } = req.query;
   const { limit, offset } = getPagination(page, perpage);
   const condition = { isFeatured: true };
-  const attributes = ['id', 'title', 'sumHotel', 'image', 'isFeatured', 'createdAt', 'updatedAt','placeOrder'];
+  const attributes = ['id', 'title', 'sumHotel', 'image', 'isFeatured', 'createdAt', 'updatedAt', 'placeOrder'];
   Place.findAndCountAll({
     where: condition,
     limit,

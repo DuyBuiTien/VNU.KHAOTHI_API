@@ -54,7 +54,7 @@ exports.findAll = async (req, res, next) => {
   const { q, page, perpage } = req.query;
   const { limit, offset } = getPagination(page, perpage);
   const condition = null;
-  const attributes = ['id', 'email'];
+  const attributes = ['id', 'email','createdAt','updatedAt'];
   Subcribe.findAndCountAll({
     where: condition,
     limit,
