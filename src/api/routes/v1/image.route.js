@@ -12,5 +12,12 @@ router
     .post(controller.create)
     .put(controller.update)
     .delete(controller.remove)
+
+router.route('/tour/:tourDetail_id')
+    .get(controller.findByTourDetailId)
+
+router.route('/place/:place_id')
+    .get(controller.findByPlaceId)
+
 router.route('/photos').post(controller.addPhotos);
 module.exports = router;
