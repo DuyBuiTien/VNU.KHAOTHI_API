@@ -85,11 +85,43 @@ exports.create = async (req, res, next) => {
   }
 };
 
+exports.findByTourDetailId = async (req, res, next) => {
+  try {
+    const attributes = ['id', 'uid', 'url', 'place_id', 'tourDetail_id'];
+    const { tourDetail_id } = req.params;
+
+    Image.findAndCountAll({
+      where: { tourDetail_id },
+      attributes
+    })
+      .then((results) => res.json(results))
+      .catch((e) => next(e));
+  } catch (error) {
+    next(error);
+  }
+}
+
+exports.findByPlaceId = async (req, res, next) => {
+  try {
+    const attributes = ['id', 'uid', 'url', 'place_id', 'tourDetail_id'];
+    const { place_id } = req.params;
+
+    Image.findAndCountAll({
+      where: { place_id },
+      attributes
+    })
+      .then((results) => res.json(results))
+      .catch((e) => next(e));
+  } catch (error) {
+    next(error);
+  }
+}
+
 exports.findAll = async (req, res, next) => {
   const { q, page, perpage } = req.query;
   const { limit, offset } = getPagination(page, perpage);
   const condition = null;
-  const attributes = ['id', 'imageUrl', 'tourDetail_id', 'tour_id', 'place_id'];
+  const attributes = ['id', 'url', 'tourDetail_id', 'uid', 'place_id'];
   Image.findAndCountAll({
     where: condition,
     limit,
