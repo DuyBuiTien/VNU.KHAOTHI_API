@@ -13,9 +13,9 @@ exports.findByTourDetailId = async (req, res, next) => {
         '[DBTripBrick].[dbo].[Services].[id], ' +
         '[TienNghis].[ClassBieuTuong], [TienNghis].[ClassMauBieuTuong] ,[DBTripBrick].[dbo].[Services].[icon_id]' +
         ',[DBTripBrick].[dbo].[Services].[tourDetail_id]' +
-        ',[DBTripBrick].[dbo].[Services].[createdAt]' +
         ',[DBTripBrick].[dbo].[TienNghis].[TieuDe]' +
         ',[DBTripBrick].[dbo].[TienNghis].[NhomTienNghiID]' +
+        ',[DBTripBrick].[dbo].[Services].[createdAt]' +
         ',[DBTripBrick].[dbo].[Services].[updatedAt]' +
         'FROM [DBTripBrick].[dbo].[Services]' +
         'INNER JOIN [DBTripBrick].[dbo].[TienNghis]' +
@@ -42,6 +42,20 @@ exports.create = async (req, res, next) => {
         console.log(error);
     }
 };
+
+exports.createMultiple = async (req, res, next) => {
+    try {
+
+        const item = await Service.bulkCreate(req.body.icons)
+            .then((result) => result)
+            .catch((err) => next(err))
+
+        res.status(httpStatus.CREATED);
+        return res.json(item);
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 exports.update = async (req, res, next) => {
     const { id } = req.params;

@@ -9,6 +9,7 @@ router.route('/').get(controller.findAll)
 
 router.route('/:tourDetail_id')
     .get(controller.findByTourDetailId)
+    .post(controller.createMultiple)
 
 router.route('/:id')
     .patch(controller.update)
