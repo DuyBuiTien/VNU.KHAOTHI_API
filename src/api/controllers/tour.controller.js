@@ -34,6 +34,32 @@ exports.remove = (req, res, next) => {
     .catch((e) => next(e));
 };
 
+// exports.update = async (req, res, next) => {
+//   const { id } = req.params;
+
+//   Image.destroy({
+//     where: {
+//       place_id: id,
+//     },
+//   })
+//     .then((result) => result)
+//     .catch((e) => next(e));
+
+//   req.body.imagesHeader.forEach(async (i) => {
+//     const temp = await Image.create(i)
+//       .then((result) => result)
+//       .catch((err) => next(err));
+//   });
+
+//   let item = await Place.findByPk(id);
+//   const updatedItem = omit(req.body, ['imagesHeader']);
+//   item = Object.assign(item, updatedItem);
+//   item
+//     .save()
+//     .then((data) => res.json(id))
+//     .catch((e) => next(e));
+// };
+
 exports.update = async (req, res, next) => {
   const { id } = req.params;
   let item = await Tour.findByPk(id);
