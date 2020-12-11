@@ -15,7 +15,7 @@ const iconGroupRoutes = require('./icongroup.route');
 const iconRoutes = require('./icon.route');
 const policyRoutes = require('./policy.route');
 const dasboardRoutes = require('./dasboard.route');
-
+const userRoutes = require('./user.route');
 const router = express.Router();
 
 /**
@@ -26,6 +26,7 @@ router.get('/status', (req, res) => res.send('OK'));
 /**
  * GET v1/docs
  */
+router.use('/user', userRoutes);
 router.use('/dasboard', dasboardRoutes);
 router.use('/docs', express.static('docs'));
 router.use('/subcribe', subcribeRoutes);

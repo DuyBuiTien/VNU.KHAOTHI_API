@@ -38,26 +38,6 @@ exports.addPhotos = (req, res, next) => {
 
       // delete old file
       fs.unlinkSync(req.file.path);
-
-      // const temp = {
-      //   uid: uuidv4(),
-      //   name: `${req.file.filename}.jpg`,
-      //   path: `/images/message/${req.file.filename}.jpg`,
-
-      //   status: 'done',
-      //   response: { status: 'success' },
-      //   linkProps: { download: 'image' },
-      //   thumbUrl: `${staticUrl}/images/message/${req.file.filename}.jpg`,
-      // };
-
-      // const dataItem = {
-      //   tourDetail_id: null,
-      //   place_id: null,
-      //   imageUrl: `public/images/${req.file.filename}.jpg`,
-      // };
-      // const imageCreated = await Image.create(dataItem)
-      //   .then((result) => result)
-      //   .catch((err) => next(err));
       return res.json({ url: `${staticUrl}/public/images/${req.file.filename}.jpg` });
     } catch (error) {
       next(error);
@@ -70,12 +50,15 @@ exports.findOne = async (req, res, next) => {
     const { id } = req.params;
     const attributes = ['id', 'title', 'sumHotel', 'image', 'isFeatured', 'placeOrder'];
 
-    Place.findOne({
+    var places = await Place.findOne({
       where: { id },
       attributes,
-    })
-      .then((results) => res.json(results))
-      .catch((e) => next(e));
+    });
+
+    var images = await Image.findAll({ where: [{ place_id: places.id }, { tourDetail_id: null }] });
+    var responsePlace = { ...places.toJSON(), imagesHeader: [] };
+    responsePlace.imagesHeader = images;
+    res.json(responsePlace);
   } catch (error) {
     next(error);
   }
@@ -160,8 +143,9 @@ exports.findAll = async (req, res, next) => {
     limit,
     offset,
     attributes,
+    order: [['placeOrder', 'ASC']],
   });
-  var images = await Image.findAll({ where: { place_id: { [Op.gt]: 0 } } });
+  var images = await Image.findAll({ where: [{ place_id: { [Op.gt]: 0 } }, { tourDetail_id: null }] });
   var responsePlace = [];
   places.rows.forEach((item) => {
     var tempItem = { ...item.toJSON(), imagesHeader: [] };
