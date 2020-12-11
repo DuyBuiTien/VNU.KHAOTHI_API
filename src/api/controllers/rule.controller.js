@@ -7,7 +7,7 @@ const Rule = db.rule;
 
 exports.findByTourDetailId = async (req, res, next) => {
     try {
-        const attributes = ['id', 'title', 'contentData', 'tourDetail_id'];
+        const attributes = ['id', 'title', 'contentĐata', 'tourDetail_id'];
         const { tourDetail_id } = req.params;
 
         Rule.findAndCountAll({
@@ -67,7 +67,7 @@ exports.findAll = async (req, res, next) => {
     const { q, page, perpage } = req.query;
     const { limit, offset } = getPagination(page, perpage);
     const condition = null;
-    const attributes = ['id', 'title', 'contentData', 'tourDetail_id'];
+    const attributes = ['id', 'title', 'contentĐata', 'tourDetail_id'];
     Rule.findAndCountAll({
         where: condition,
         limit,

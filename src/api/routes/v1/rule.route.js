@@ -1,6 +1,6 @@
 const express = require('express');
 const { validate } = require('express-validation');
-const controller = require('../../controllers/scheduleDetail.controller');
+const controller = require('../../controllers/rule.controller');
 
 const router = express.Router();
 
