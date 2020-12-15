@@ -10,7 +10,6 @@ router.route('/').get(controller.findAll)
 router.route('/:tourDetail_id')
     .get(controller.findByTourDetailId)
 
-
 router.route('/:id')
     .patch(controller.update)
     .delete(controller.remove)

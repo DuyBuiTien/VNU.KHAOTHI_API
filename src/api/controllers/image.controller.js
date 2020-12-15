@@ -47,6 +47,7 @@ exports.addPhotos = (req, res, next) => {
     }
   });
 };
+
 exports.remove = (req, res, next) => {
   const { id } = req.query;
 
