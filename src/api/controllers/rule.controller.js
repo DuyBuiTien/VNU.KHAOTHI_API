@@ -7,7 +7,7 @@ const Rule = db.rule;
 
 exports.findByTourDetailId = async (req, res, next) => {
     try {
-        const attributes = ['id', 'title', 'contentĐata', 'tourDetail_id'];
+        const attributes = ['id', 'title', 'contentData', 'tourDetail_id'];
         const { tourDetail_id } = req.params;
 
         Rule.findAndCountAll({
@@ -38,17 +38,23 @@ exports.create = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
     const { id } = req.params;
-    let item = await Rule.findByPk(id);
-    if (!item) {
-        res.sendStatus(400)
-    }
 
-    const updatedItem = omit(req.body, ['role', 'password']);
-    item = Object.assign(item, updatedItem);
-    item
-        .save()
-        .then((data) => res.json(data))
+    const attributes = ['id', 'title', 'contentData', 'tourDetail_id'];
+    Rule.destroy({
+        where: {
+            tourDetail_id: id
+        }
+    })
+        .then((result) => result)
         .catch((e) => next(e));
+
+    req.body.map(async (item) => {
+        const updatedItem = omit(item, 'id')
+        const temp = await Rule.create(updatedItem)
+            .then(result => result)
+            .catch(e => next(e))
+    })
+    res.send('1')
 };
 
 exports.remove = (req, res, next) => {
@@ -67,7 +73,7 @@ exports.findAll = async (req, res, next) => {
     const { q, page, perpage } = req.query;
     const { limit, offset } = getPagination(page, perpage);
     const condition = null;
-    const attributes = ['id', 'title', 'contentĐata', 'tourDetail_id'];
+    const attributes = ['id', 'title', 'contentData', 'tourDetail_id'];
     Rule.findAndCountAll({
         where: condition,
         limit,
