@@ -69,7 +69,7 @@ exports.findOne = async (req, res, next) => {
   }
 };
 exports.remove = (req, res, next) => {
-  const { id } = req.query;
+  const { id } = req.params;
 
   Intro.destroy({
     where: {
@@ -81,10 +81,10 @@ exports.remove = (req, res, next) => {
 };
 
 exports.update = async (req, res, next) => {
-  const { id } = req.query;
+  const { id } = req.params;
   let item = await Intro.findByPk(id);
 
-  const updatedItem = omit(req.body, ['']);
+  const updatedItem = omit(req.body, ['id']);
   item = Object.assign(item, updatedItem);
   item
     .save()
