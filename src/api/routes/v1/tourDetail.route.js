@@ -11,7 +11,7 @@ router.route('/:tour_id')
     .get(controller.findByTourDetailId)
 
 
-router.route('/:id')
+router.route('/:tourDetail_id/:place_id')
     .patch(controller.update)
     .delete(controller.remove)
 

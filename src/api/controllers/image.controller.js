@@ -89,7 +89,7 @@ exports.create = async (req, res, next) => {
 
 exports.findByTourDetailId = async (req, res, next) => {
   try {
-    const attributes = ['id', 'uid', 'url', 'place_id', 'tourDetail_id'];
+    const attributes = ['id', 'uid', 'url', 'path', 'place_id', 'tourDetail_id'];
     const { tourDetail_id } = req.params;
 
     Image.findAndCountAll({
