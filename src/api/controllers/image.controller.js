@@ -39,6 +39,7 @@ exports.addPhotos = (req, res, next) => {
         tourDetail_id: null,
         place_id: null,
         url: `${staticUrl}/public/images/${req.file.filename}.jpg`,
+        path: `public/images/${req.file.filename}.jpg`,
       };
       return res.json(dataItem);
     } catch (error) {
@@ -93,14 +94,14 @@ exports.findByTourDetailId = async (req, res, next) => {
 
     Image.findAndCountAll({
       where: { tourDetail_id },
-      attributes
+      attributes,
     })
       .then((results) => res.json(results))
       .catch((e) => next(e));
   } catch (error) {
     next(error);
   }
-}
+};
 
 exports.findByPlaceId = async (req, res, next) => {
   try {
@@ -109,14 +110,14 @@ exports.findByPlaceId = async (req, res, next) => {
 
     Image.findAndCountAll({
       where: { place_id },
-      attributes
+      attributes,
     })
       .then((results) => res.json(results))
       .catch((e) => next(e));
   } catch (error) {
     next(error);
   }
-}
+};
 
 exports.findAll = async (req, res, next) => {
   const { q, page, perpage } = req.query;

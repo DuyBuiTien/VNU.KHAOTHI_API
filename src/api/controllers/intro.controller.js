@@ -4,8 +4,54 @@ const { omit } = require('lodash');
 const db = require('../../config/mssql');
 
 const Intro = db.intro;
-
+const Banner = db.banner;
 const { Op } = db.Sequelize;
+
+exports.updateImage = async (req, res, next) => {
+  try {
+    var imageDel = await Banner.findAll({
+      where: { isIntro: true },
+    });
+    imageDel.forEach((item) => {
+      var ind = req.body.imagesHeader.findIndex((key) => (item.uid = key.uid));
+      if (ind == -1) {
+        fs.unlinkSync(item.path);
+      }
+    });
+    Banner.destroy({
+      where: {
+        isIntro: true,
+      },
+    })
+      .then((result) => result)
+      .catch((e) => next(e));
+    console.log(req.body);
+    req.body.imagesHeader.forEach(async (i) => {
+      const temp = await Banner.create(i)
+        .then((result) => res.json('ok'))
+        .catch((err) => next(err));
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.findAllImages = async (req, res, next) => {
+  const { q, page, perpage } = req.query;
+  const { limit, offset } = getPagination(page, perpage);
+  const condition = null;
+  const attributes = ['id', 'uid', 'url', 'isHome', 'isIntro', 'createdAt', 'updatedAt'];
+  Banner.findAll({
+    where: { isIntro: true },
+    limit,
+    offset,
+    attributes,
+  })
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((e) => next(e));
+};
 
 exports.findOne = async (req, res, next) => {
   try {
@@ -65,7 +111,7 @@ exports.findAll = async (req, res, next) => {
   const { q, page, perpage } = req.query;
   const { limit, offset } = getPagination(page, perpage);
   const condition = null;
-  const attributes = ['id', 'title', 'contentData', 'createdAt','updatedAt'];
+  const attributes = ['id', 'title', 'contentData', 'createdAt', 'updatedAt'];
   Intro.findAndCountAll({
     where: condition,
     limit,

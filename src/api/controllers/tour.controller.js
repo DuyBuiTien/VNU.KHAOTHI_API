@@ -4,7 +4,7 @@ const { omit } = require('lodash');
 const db = require('../../config/mssql');
 
 const Tour = db.tour;
-
+const Image = db.image;
 const { Op } = db.Sequelize;
 
 exports.findOne = async (req, res, next) => {
@@ -105,17 +105,22 @@ exports.findAll = async (req, res, next) => {
     'createdAt',
     'updatedAt',
   ];
-  Tour.findAndCountAll({
+  var tours = await Tour.findAndCountAll({
     where: place_id ? condition : null,
     limit,
     offset,
     attributes,
-  })
-    .then((data) => {
-      const response = getPagingData(data, page, limit);
-      res.json(response);
-    })
-    .catch((e) => next(e));
+  });
+  var images = await Image.findAll({ where: { tourDetail_id: { [Op.gt]: 0 } } });
+  var responseTour = [];
+  tours.rows.forEach((item) => {
+    var tempItem = { ...item.toJSON(), listImages: [] };
+    var temp = images.filter((i) => i.tourDetail_id == item.id);
+    tempItem.listImages = temp;
+    responseTour.push(tempItem);
+  });
+  const response = getPagingData({ count: tours.count, rows: responseTour }, page, limit);
+  res.json(response);
 };
 exports.findAllFeatured = async (req, res, next) => {
   const { q, page, perpage } = req.query;

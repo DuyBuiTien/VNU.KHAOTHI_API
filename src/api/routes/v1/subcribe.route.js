@@ -6,11 +6,7 @@ const { listUsers, updateUser, updatePassword } = require('../../validations/use
 
 const router = express.Router();
 
-router
-    .route('/')
-    .get(controller.findAll)
-    .post(controller.create)
-    .delete(controller.remove)
-router
-    .route('/:id').patch(controller.update)
+router.route('/').get(controller.findAll).post(controller.create).delete(controller.remove);
+router.route('/:id').patch(controller.update);
+router.route('/sendEmail').post(controller.sendEmail);
 module.exports = router;

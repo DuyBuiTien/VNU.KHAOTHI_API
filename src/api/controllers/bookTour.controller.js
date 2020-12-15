@@ -11,22 +11,22 @@ exports.findOne = async (req, res, next) => {
   try {
     const { id } = req.params;
     const attributes = [
-        'id',
-        'email',
-        'name',
-        'phoneNumber',
-        'specialRequirement',
-        'tourCode',
-        'tour_id',
-        'favoritePlace',
-        'dateStart',
-        'dateEnd',
-        'sumPeople',
-        'sumChildren5to12',
-        'sumChildrenOver5',
-        'status',
-        'createdAt',
-        'updatedAt'
+      'id',
+      'email',
+      'name',
+      'phoneNumber',
+      'specialRequirement',
+      'tourCode',
+      'tour_id',
+      'favoritePlace',
+      'dateStart',
+      'dateEnd',
+      'sumPeople',
+      'sumChildren5to12',
+      'sumChildrenUnder5',
+      'status',
+      'createdAt',
+      'updatedAt',
     ];
 
     BookTour.findOne({
@@ -63,16 +63,16 @@ exports.update = async (req, res, next) => {
     .catch((e) => next(e));
 };
 exports.updateItem = async (req, res, next) => {
-    const { id } = req.params;
-    let item = await BookTour.findByPk(id);
-  
-    const updatedItem = omit(req.body, ['']);
-    item = Object.assign(item, updatedItem);
-    item
-      .save()
-      .then((data) => res.json(data))
-      .catch((e) => next(e));
-  };
+  const { id } = req.params;
+  let item = await BookTour.findByPk(id);
+
+  const updatedItem = omit(req.body, ['']);
+  item = Object.assign(item, updatedItem);
+  item
+    .save()
+    .then((data) => res.json(data))
+    .catch((e) => next(e));
+};
 
 exports.create = async (req, res, next) => {
   try {
@@ -106,10 +106,10 @@ exports.findAll = async (req, res, next) => {
     'dateEnd',
     'sumPeople',
     'sumChildren5to12',
-    'sumChildrenOver5',
+    'sumChildrenUnder5',
     'status',
     'createdAt',
-    'updatedAt'
+    'updatedAt',
   ];
   BookTour.findAndCountAll({
     where: condition,
