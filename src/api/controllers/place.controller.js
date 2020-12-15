@@ -38,7 +38,10 @@ exports.addPhotos = (req, res, next) => {
 
       // delete old file
       fs.unlinkSync(req.file.path);
-      return res.json({ url: `${staticUrl}/public/images/${req.file.filename}.jpg` });
+      return res.json({
+        url: `${staticUrl}/public/images/${req.file.filename}.jpg`,
+        path: `public/images/${req.file.filename}.jpg`,
+      });
     } catch (error) {
       next(error);
     }
@@ -88,9 +91,17 @@ exports.updateItem = async (req, res, next) => {
 exports.update = async (req, res, next) => {
   const { id } = req.params;
 
+  var imageDel = await Image.findAll({
+    where: { place_id: id, tourDetail_id: null },
+  });
+  console.log(imageDel);
+  imageDel.forEach((item) => {
+    fs.unlinkSync(item.path);
+  });
   Image.destroy({
     where: {
       place_id: id,
+      tourDetail_id: null,
     },
   })
     .then((result) => result)

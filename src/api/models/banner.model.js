@@ -37,6 +37,10 @@ module.exports = (sequelize, Sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
+      path: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       isHome: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
