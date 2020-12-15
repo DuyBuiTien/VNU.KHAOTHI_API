@@ -6,6 +6,7 @@ const { listUsers, updateUser, updatePassword } = require('../../validations/use
 
 const router = express.Router();
 
-router.route('/').get(controller.findAll).post(controller.create).put(controller.update).delete(controller.remove);
+router.route('/').get(controller.findAll).post(controller.create);
+router.route('/:id').delete(controller.remove).put(controller.update);
 router.route('/imagesheader').put(controller.updateImage).get(controller.findAllImages);
 module.exports = router;
