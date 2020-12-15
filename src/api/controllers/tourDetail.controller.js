@@ -1,5 +1,6 @@
 const httpStatus = require('http-status');
 const { omit } = require('lodash');
+const fs = require('fs');
 
 const db = require('../../config/mssql');
 
@@ -67,14 +68,18 @@ exports.create = async (req, res, next) => {
 };
 
 exports.update = async (req, res, next) => {
-  const { id } = req.params;
-  let item = await TourDetail.findByPk(id);
-  if (!item) {
-    res.sendStatus(400);
-  }
+  const { tourDetail_id, place_id } = req.params;
+
+  var imageDel = await Image.findAll({
+    where: { place_id: place_id, tourDetail_id: tourDetail_id },
+  });
+  imageDel.forEach((item) => {
+    fs.unlinkSync(item.path);
+  });
   Image.destroy({
     where: {
-      tourDetail_id: id,
+      place_id: place_id,
+      tourDetail_id: tourDetail_id,
     },
   })
     .then((result) => result)
@@ -86,7 +91,8 @@ exports.update = async (req, res, next) => {
       .catch((err) => next(err));
   });
 
-  const updatedItem = omit(req.body, ['listImages']);
+  let item = await TourDetail.findByPk(tourDetail_id);
+  const updatedItem = omit(req.body, ['']);
   item = Object.assign(item, updatedItem);
   item
     .save()
