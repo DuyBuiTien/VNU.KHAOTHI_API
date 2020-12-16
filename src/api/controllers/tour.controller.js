@@ -10,7 +10,9 @@ const { Op } = db.Sequelize;
 exports.findOne = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const attributes = ['id', 'place_id', 'title', 'period', 'image', 'description', 'price', 'note', 'image', 'isFeatured'];
+    const attributes = ['id', 'place_id', 'title',
+      'orderId',
+      'tag', 'period', 'image', 'description', 'price', 'note', 'image', 'isFeatured'];
 
     Tour.findOne({
       where: { id },
@@ -96,6 +98,8 @@ exports.findAll = async (req, res, next) => {
     'id',
     'title',
     'period',
+    'orderId',
+    'tag',
     'description',
     'price',
     'note',
@@ -130,6 +134,8 @@ exports.findAllFeatured = async (req, res, next) => {
     'id',
     'title',
     'period',
+    'orderId',
+    'tag',
     'description',
     'price',
     'note',
