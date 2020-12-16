@@ -21,7 +21,7 @@ db.sequelize = sequelize;
 
 db.attachment = require('../api/models/attachment.model')(sequelize, Sequelize);
 
-db.subcribe = require('../api/models/subcribe.model')(sequelize, Sequelize);
+db.subscribe = require('../api/models/subscribe.model')(sequelize, Sequelize);
 db.place = require('../api/models/place.model')(sequelize, Sequelize);
 db.scheduleDetail = require('../api/models/scheduleDetail.model')(sequelize, Sequelize);
 db.service = require('../api/models/service.model')(sequelize, Sequelize);

@@ -7,27 +7,27 @@ const { env, jwtSecret, jwtExpirationInterval } = require('../../config/vars');
 const APIError = require('../utils/APIError');
 
 module.exports = (sequelize, Sequelize) => {
-  class Subcribe extends Model {
+  class Subscribe extends Model {
     static async get(id) {
-        try {
-          const item = await Subcribe.findByPk(id);
-  
-          if (item) {
-            return item;
-          }
-  
-          throw new APIError({
-            message: 'Office does not exist',
-            status: httpStatus.NOT_FOUND,
-          });
-        } catch (error) {
-          console.log(error);
-          throw error;
+      try {
+        const item = await Subscribe.findByPk(id);
+
+        if (item) {
+          return item;
         }
+
+        throw new APIError({
+          message: 'Office does not exist',
+          status: httpStatus.NOT_FOUND,
+        });
+      } catch (error) {
+        console.log(error);
+        throw error;
       }
+    }
   }
 
-  Subcribe.init(
+  Subscribe.init(
     {
       email: {
         type: DataTypes.STRING,
@@ -36,10 +36,10 @@ module.exports = (sequelize, Sequelize) => {
     },
     {
       sequelize,
-      modelName: 'Subcribe',
+      modelName: 'Subscribe',
       freezeTableName: true,
     },
   );
 
-  return Subcribe;
+  return Subscribe;
 };

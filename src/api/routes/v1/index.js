@@ -1,5 +1,5 @@
 const express = require('express');
-const subcribeRoutes = require('./subcribe.route');
+const subscribeRoutes = require('./subscribe.route');
 const placeRoutes = require('./place.route');
 const scheduleDetailRoutes = require('./scheduleDetail.route');
 const serviceRoutes = require('./service.route');
@@ -32,7 +32,7 @@ router.get('/status', (req, res) => res.send('OK'));
 router.use('/user', userRoutes);
 router.use('/dasboard', dasboardRoutes);
 router.use('/docs', express.static('docs'));
-router.use('/subcribe', subcribeRoutes);
+router.use('/subscribe', subscribeRoutes);
 router.use('/place', placeRoutes);
 router.use('/scheduleDetail', scheduleDetailRoutes);
 router.use('/service', serviceRoutes);

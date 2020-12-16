@@ -7,7 +7,7 @@ const { emailConfig } = require('../../config/vars');
 
 const db = require('../../config/mssql');
 
-const Subcribe = db.subcribe;
+const Subscribe = db.subscribe;
 
 const { Op } = db.Sequelize;
 
@@ -49,7 +49,7 @@ exports.sendEmail = async (req, res) => {
 };
 exports.update = async (req, res, next) => {
   const { id } = req.params;
-  let item = await Subcribe.findByPk(id);
+  let item = await Subscribe.findByPk(id);
   if (!item) {
     res.sendStatus(400);
   }
@@ -65,7 +65,7 @@ exports.update = async (req, res, next) => {
 exports.remove = (req, res, next) => {
   const { id } = req.params;
 
-  Subcribe.destroy({
+  Subscribe.destroy({
     where: {
       id,
     },
@@ -78,7 +78,7 @@ exports.create = async (req, res, next) => {
   try {
     const itemData = omit(req.body, '');
 
-    const item = await Subcribe.create(itemData)
+    const item = await Subscribe.create(itemData)
       .then((result) => result)
       .catch((err) => next(err));
 
@@ -94,7 +94,7 @@ exports.findAll = async (req, res, next) => {
   const { limit, offset } = getPagination(page, perpage);
   const condition = null;
   const attributes = ['id', 'email', 'createdAt', 'updatedAt'];
-  Subcribe.findAndCountAll({
+  Subscribe.findAndCountAll({
     where: condition,
     limit,
     offset,
