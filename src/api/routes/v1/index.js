@@ -17,6 +17,7 @@ const policyRoutes = require('./policy.route');
 const dasboardRoutes = require('./dasboard.route');
 const userRoutes = require('./user.route');
 const homeRoutes = require('./home.route');
+const introHeaderRoutes = require('./introHeader.route');
 
 const router = express.Router();
 
@@ -47,4 +48,5 @@ router.use('/iconGroup', iconGroupRoutes);
 router.use('/icon', iconRoutes);
 router.use('/policy', policyRoutes);
 router.use('/home', homeRoutes);
+router.use('/introHeader', introHeaderRoutes);
 module.exports = router;
