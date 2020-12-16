@@ -53,6 +53,14 @@ module.exports = (sequelize, Sequelize) => {
         type: DataTypes.BOOLEAN,
         allowNull: true,
       },
+      tag: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+      },
+      orderId: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
       image: {
         type: DataTypes.TEXT,
         allowNull: true,
