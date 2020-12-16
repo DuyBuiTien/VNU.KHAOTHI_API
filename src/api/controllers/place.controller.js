@@ -13,6 +13,13 @@ const storagePhoto = require('../utils/storagePhoto');
 const storageFile = require('../utils/storageFile');
 
 const Place = db.place;
+const Tour = db.tour;
+const TourDetail = db.tourDetail;
+const TourDetailDescription = db.tourDetailDescription;
+const ScheduleDetail = db.scheduleDetail;
+const Service = db.service;
+const Rule = db.rule;
+const Policy = db.policy;
 const Image = db.image;
 
 const { Op } = db.Sequelize;
@@ -66,9 +73,57 @@ exports.findOne = async (req, res, next) => {
     next(error);
   }
 };
-exports.remove = (req, res, next) => {
+exports.remove = async (req, res, next) => {
   const { id } = req.params;
-
+  var tour = await Tour.findAll({ where: { place_id: id } });
+  tour.forEach(async (item) => {
+    const del1 = await Policy.destroy({
+      where: {
+        tourDetail_id: item.id,
+      },
+    });
+    const del2 = await Service.destroy({
+      where: {
+        tourDetail_id: item.id,
+      },
+    });
+    const del3 = await ScheduleDetail.destroy({
+      where: {
+        tourDetail_id: item.id,
+      },
+    });
+    const del4 = await TourDetailDescription.destroy({
+      where: {
+        tourDetail_id: item.id,
+      },
+    });
+    const del5 = await Rule.destroy({
+      where: {
+        tourDetail_id: item.id,
+      },
+    });
+    const del6 = await TourDetail.destroy({
+      where: {
+        tour_id: item.id,
+      },
+    });
+  });
+  const del7 = await Tour.destroy({
+    where: {
+      place_id: id,
+    },
+  });
+  var imageDel = await Image.findAll({
+    where: { place_id: id },
+  });
+  imageDel.forEach((item) => {
+    fs.unlinkSync(item.path);
+  });
+  const del8 = await Image.destroy({
+    where: {
+      place_id: id,
+    },
+  });
   Place.destroy({
     where: {
       id,
