@@ -36,6 +36,8 @@ db.iconGroup = require('../api/models/icongroup.model')(sequelize, Sequelize);
 db.icon = require('../api/models/icon.model')(sequelize, Sequelize);
 db.policy = require('../api/models/policy.model')(sequelize, Sequelize);
 db.banner = require('../api/models/banner.model')(sequelize, Sequelize);
+db.emailTemplate = require('../api/models/emailTemplate.model')(sequelize, Sequelize);
+
 //Relationship
 // db.iconGroup.hasMany(db.icon)
 // db.icon.belongsTo(db.iconGroup)
