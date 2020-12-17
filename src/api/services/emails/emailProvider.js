@@ -93,3 +93,25 @@ exports.sendPasswordChangeEmail = async (user) => {
       console.log(error);
     });
 };
+exports.sendMail = async (emails, titleEmail, contentEmail) => {
+  // Khởi tạo một thằng transporter object sử dụng chuẩn giao thức truyền tải SMTP với các thông tin cấu hình ở trên.
+  const transporter = nodemailer.createTransport({
+    host: emailConfig.host,
+    port: emailConfig.port,
+    secure: false,
+    //service: 'gmail',
+    auth: {
+      user: emailConfig.username,
+      pass: emailConfig.password,
+    },
+    secure: false, // upgrades later with STARTTLS -- change this based on the PORT
+  });
+  const options = {
+    from: emailConfig.username, // địa chỉ admin email bạn dùng để gửi
+    to: emails, // địa chỉ gửi đến
+    subject: titleEmail, // Tiêu đề của mail
+    html: contentEmail, // Phần nội dung mail mình sẽ dùng html thay vì thuần văn bản thông thường.
+  };
+  // hàm transporter.sendMail() này sẽ trả về cho chúng ta một Promise
+  return transporter.sendMail(options);
+};

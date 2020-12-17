@@ -14,7 +14,7 @@ const tourDetailRoutes = require('./tourDetail.route');
 const iconGroupRoutes = require('./icongroup.route');
 const iconRoutes = require('./icon.route');
 const policyRoutes = require('./policy.route');
-const dasboardRoutes = require('./dasboard.route');
+const dashboardRoutes = require('./dashboard.route');
 const userRoutes = require('./user.route');
 const homeRoutes = require('./home.route');
 const introHeaderRoutes = require('./introHeader.route');
@@ -30,7 +30,7 @@ router.get('/status', (req, res) => res.send('OK'));
  * GET v1/docs
  */
 router.use('/user', userRoutes);
-router.use('/dasboard', dasboardRoutes);
+router.use('/dashboard', dashboardRoutes);
 router.use('/docs', express.static('docs'));
 router.use('/subscribe', subscribeRoutes);
 router.use('/place', placeRoutes);

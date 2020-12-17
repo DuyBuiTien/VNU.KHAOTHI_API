@@ -1,10 +1,11 @@
 const httpStatus = require('http-status');
 const { omit } = require('lodash');
+const { sendMail } = require('../services/emails/emailProvider');
 
 const db = require('../../config/mssql');
 
 const BookTour = db.bookTour;
-
+const EmailTemplate = db.emailTemplate;
 const { Op } = db.Sequelize;
 
 exports.findOne = async (req, res, next) => {
@@ -73,11 +74,27 @@ exports.updateItem = async (req, res, next) => {
     .then((data) => res.json(data))
     .catch((e) => next(e));
 };
-
+const sendEmail = async (emails, title, contentData) => {
+  try {
+    // Thực hiện gửi email
+    var temp = await sendMail(emails, title, contentData);
+    // Quá trình gửi email thành công thì gửi về thông báo success cho người dùng
+    return '<h3>Your email has been sent successfully.</h3>';
+  } catch (error) {
+    // Nếu có lỗi thì log ra để kiểm tra và cũng gửi về client
+    console.log(error);
+    return error;
+  }
+};
 exports.create = async (req, res, next) => {
   try {
     const itemData = omit(req.body, '');
-
+    var template = await EmailTemplate.findOne({
+      where: { isDefault: true },
+    }).then((result) => {
+      return result.toJSON();
+    });
+    await sendEmail(itemData.email, template.title, template.contentData);
     const item = await BookTour.create(itemData)
       .then((result) => result)
       .catch((err) => next(err));
