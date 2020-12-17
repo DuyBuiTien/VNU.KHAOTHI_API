@@ -16,7 +16,7 @@ exports.findOne = async (req, res, next) => {
 
     Tour.findOne({
       where: { id },
-      attributes,
+      attributes
     })
       .then((results) => res.json(results))
       .catch((e) => next(e));
@@ -114,6 +114,7 @@ exports.findAll = async (req, res, next) => {
     limit,
     offset,
     attributes,
+    order: [['orderId', 'ASC']]
   });
   var images = await Image.findAll({ where: { tourDetail_id: { [Op.gt]: 0 } } });
   var responseTour = [];
