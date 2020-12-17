@@ -1,5 +1,5 @@
 const express = require('express');
-const subcribeRoutes = require('./subcribe.route');
+const subscribeRoutes = require('./subscribe.route');
 const placeRoutes = require('./place.route');
 const scheduleDetailRoutes = require('./scheduleDetail.route');
 const serviceRoutes = require('./service.route');
@@ -18,7 +18,7 @@ const dasboardRoutes = require('./dasboard.route');
 const userRoutes = require('./user.route');
 const homeRoutes = require('./home.route');
 const introHeaderRoutes = require('./introHeader.route');
-
+const emailTemplateRoutes = require('./emailTemplate.route');
 const router = express.Router();
 
 /**
@@ -32,7 +32,7 @@ router.get('/status', (req, res) => res.send('OK'));
 router.use('/user', userRoutes);
 router.use('/dasboard', dasboardRoutes);
 router.use('/docs', express.static('docs'));
-router.use('/subcribe', subcribeRoutes);
+router.use('/subscribe', subscribeRoutes);
 router.use('/place', placeRoutes);
 router.use('/scheduleDetail', scheduleDetailRoutes);
 router.use('/service', serviceRoutes);
@@ -49,4 +49,5 @@ router.use('/icon', iconRoutes);
 router.use('/policy', policyRoutes);
 router.use('/home', homeRoutes);
 router.use('/introHeader', introHeaderRoutes);
+router.use('/emailTemplate', emailTemplateRoutes);
 module.exports = router;

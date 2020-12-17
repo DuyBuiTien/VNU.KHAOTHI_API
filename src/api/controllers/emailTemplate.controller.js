@@ -7,49 +7,13 @@ const { emailConfig } = require('../../config/vars');
 
 const db = require('../../config/mssql');
 
-const Subscribe = db.subscribe;
+const EmailTemplate = db.emailTemplate;
 
 const { Op } = db.Sequelize;
 
-const sendMail = (emails, titleEmail, contentEmail) => {
-  // Khởi tạo một thằng transporter object sử dụng chuẩn giao thức truyền tải SMTP với các thông tin cấu hình ở trên.
-  const transporter = nodemailer.createTransport({
-    host: emailConfig.host,
-    port: emailConfig.port,
-    secure: false,
-    //service: 'gmail',
-    auth: {
-      user: emailConfig.username,
-      pass: emailConfig.password,
-    },
-    secure: false, // upgrades later with STARTTLS -- change this based on the PORT
-  });
-  const options = {
-    from: emailConfig.username, // địa chỉ admin email bạn dùng để gửi
-    to: emails, // địa chỉ gửi đến
-    subject: titleEmail, // Tiêu đề của mail
-    html: contentEmail, // Phần nội dung mail mình sẽ dùng html thay vì thuần văn bản thông thường.
-  };
-  // hàm transporter.sendMail() này sẽ trả về cho chúng ta một Promise
-  return transporter.sendMail(options);
-};
-exports.sendEmail = async (req, res) => {
-  try {
-    // Lấy data truyền lên từ form phía client
-    const { emails, titleEmail, contentEmail } = req.body;
-    // Thực hiện gửi email
-    await sendMail(emails, titleEmail, contentEmail);
-    // Quá trình gửi email thành công thì gửi về thông báo success cho người dùng
-    res.send('<h3>Your email has been sent successfully.</h3>');
-  } catch (error) {
-    // Nếu có lỗi thì log ra để kiểm tra và cũng gửi về client
-    console.log(error);
-    res.send(error);
-  }
-};
 exports.update = async (req, res, next) => {
   const { id } = req.params;
-  let item = await Subscribe.findByPk(id);
+  let item = await EmailTemplate.findByPk(id);
   if (!item) {
     res.sendStatus(400);
   }
@@ -65,7 +29,7 @@ exports.update = async (req, res, next) => {
 exports.remove = (req, res, next) => {
   const { id } = req.params;
 
-  Subscribe.destroy({
+  EmailTemplate.destroy({
     where: {
       id,
     },
@@ -78,7 +42,7 @@ exports.create = async (req, res, next) => {
   try {
     const itemData = omit(req.body, '');
 
-    const item = await Subscribe.create(itemData)
+    const item = await EmailTemplate.create(itemData)
       .then((result) => result)
       .catch((err) => next(err));
 
@@ -93,8 +57,8 @@ exports.findAll = async (req, res, next) => {
   const { q, page, perpage } = req.query;
   const { limit, offset } = getPagination(page, perpage);
   const condition = null;
-  const attributes = ['id', 'email', 'createdAt', 'updatedAt'];
-  Subscribe.findAndCountAll({
+  const attributes = ['id', 'type', 'title', 'contentData', 'createdAt', 'updatedAt'];
+  EmailTemplate.findAndCountAll({
     where: condition,
     limit,
     offset,
