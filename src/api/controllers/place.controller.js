@@ -229,24 +229,6 @@ exports.findAll = async (req, res, next) => {
   // })
   // .catch((e) => next(e));
 };
-exports.findAllFeatured = async (req, res, next) => {
-  const { q, page, perpage } = req.query;
-  const { limit, offset } = getPagination(page, perpage);
-  const condition = { isFeatured: true };
-  const attributes = ['id', 'title', 'sumHotel', 'image', 'isFeatured', 'createdAt', 'updatedAt', 'placeOrder'];
-  Place.findAndCountAll({
-    where: condition,
-    limit,
-    offset,
-    attributes,
-  })
-    .then((data) => {
-      const response = getPagingData(data, page, limit);
-      res.json(response);
-    })
-    .catch((e) => next(e));
-};
-
 const getPagination = (page, perpage) => {
   const limit = perpage ? +perpage : 10;
   const offset = page ? page * limit : 0;
