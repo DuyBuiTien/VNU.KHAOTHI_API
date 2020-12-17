@@ -130,6 +130,39 @@ exports.findAll = async (req, res, next) => {
   const response = getPagingData({ count: tours.count, rows: responseTour }, page, limit);
   res.json(response);
 };
+
+exports.findAllTag = async (req, res, next) => {
+  const { q, page, perpage } = req.query;
+  const { limit, offset } = getPagination(page, perpage);
+  const condition = { tag: true };
+  const attributes = [
+    'id',
+    'title',
+    'period',
+    'orderId',
+    'tag',
+    'description',
+    'price',
+    'note',
+    'isFeatured',
+    'place_id',
+    'createdAt',
+    'updatedAt',
+  ];
+  Tour.findAndCountAll({
+    where: condition,
+    limit,
+    offset,
+    attributes,
+  })
+    .then((data) => {
+      const response = getPagingData(data, page, limit);
+      res.json(response);
+    })
+    .catch((e) => next(e));
+};
+
+
 exports.findAllFeatured = async (req, res, next) => {
   const { q, page, perpage } = req.query;
   const { limit, offset } = getPagination(page, perpage);

@@ -10,6 +10,9 @@ router.route('/').get(controller.findAll)
 router.route('/featured')
     .get(controller.findAllFeatured)
 
+router.route('/tag')
+    .get(controller.findAllTag)
+
 
 router.route('/:id')
     .get(controller.findOne)
