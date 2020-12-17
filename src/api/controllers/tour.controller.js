@@ -114,7 +114,10 @@ exports.findAll = async (req, res, next) => {
     limit,
     offset,
     attributes,
-    order: [['orderId', 'ASC']]
+    order: [
+      ['place_id', 'ASC'],
+      ['orderId', 'ASC']
+    ]
   });
   var images = await Image.findAll({ where: { tourDetail_id: { [Op.gt]: 0 } } });
   var responseTour = [];
