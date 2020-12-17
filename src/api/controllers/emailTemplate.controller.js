@@ -17,7 +17,13 @@ exports.update = async (req, res, next) => {
   if (!item) {
     res.sendStatus(400);
   }
-
+  if (req.body.isDefault == true) {
+    try {
+      await EmailTemplate.update({ isDefault: false }, { where: { id: { [Op.gt]: 0 } } });
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const updatedItem = omit(req.body, ['']);
   item = Object.assign(item, updatedItem);
   item
@@ -41,7 +47,9 @@ exports.remove = (req, res, next) => {
 exports.create = async (req, res, next) => {
   try {
     const itemData = omit(req.body, '');
-
+    if (itemData.isDefault == true) {
+      await EmailTemplate.update({ isDefault: false }, { where: { id: { [Op.gt]: 0 } } });
+    }
     const item = await EmailTemplate.create(itemData)
       .then((result) => result)
       .catch((err) => next(err));
@@ -57,7 +65,7 @@ exports.findAll = async (req, res, next) => {
   const { q, page, perpage } = req.query;
   const { limit, offset } = getPagination(page, perpage);
   const condition = null;
-  const attributes = ['id', 'type', 'title', 'contentData', 'createdAt', 'updatedAt'];
+  const attributes = ['id', 'type', 'title', 'contentData', 'isDefault', 'createdAt', 'updatedAt'];
   EmailTemplate.findAndCountAll({
     where: condition,
     limit,

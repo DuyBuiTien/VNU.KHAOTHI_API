@@ -3,7 +3,7 @@ const { omit } = require('lodash');
 
 const db = require('../../config/mssql');
 
-const Subcribe = db.subcribe;
+const Subcribe = db.subscribe;
 const Place = db.place;
 const Tour = db.tour;
 const BookTour = db.bookTour;
