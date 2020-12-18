@@ -70,15 +70,6 @@ exports.create = async (req, res, next) => {
 exports.update = async (req, res, next) => {
   const { tourDetail_id, place_id } = req.params;
 
-  var imageDel = await Image.findAll({
-    where: { place_id: place_id, tourDetail_id: tourDetail_id },
-  });
-  imageDel.forEach((item) => {
-    var ind = req.body.listImages.findIndex((key) => (item.uid = key.uid));
-    if (ind == -1) {
-      fs.unlinkSync(item.path);
-    }
-  });
   Image.destroy({
     where: {
       place_id: place_id,
