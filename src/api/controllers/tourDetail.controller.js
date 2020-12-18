@@ -57,7 +57,7 @@ exports.create = async (req, res, next) => {
     const itemData = omit(req.body, 'id');
 
     const item = await TourDetail.create(itemData)
-      .then((result) => result)
+      .then((result) => res.send(result))
       .catch((err) => next(err));
 
     res.status(httpStatus.CREATED);
@@ -133,7 +133,7 @@ exports.findAll = async (req, res, next) => {
 
   var images = await Image.findAll({ where: { tourDetail_id: { [Op.gt]: 0 } } });
   var responseTour = [];
-  tours.rows.forEach((item) => {
+  tours.rows.length > 0 && tours.rows && tours.rows.forEach((item) => {
     var tempItem = { ...item.toJSON(), listImages: [] };
     var temp = images.filter((i) => i.tourDetail_id == item.id);
     tempItem.imagesHeader = temp;
