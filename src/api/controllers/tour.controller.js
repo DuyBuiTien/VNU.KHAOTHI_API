@@ -79,7 +79,7 @@ exports.create = async (req, res, next) => {
     const itemData = omit(req.body, '');
 
     const item = await Tour.create(itemData)
-      .then((result) => result)
+      .then((result) => res.send(result))
       .catch((err) => next(err));
 
     res.status(httpStatus.CREATED);
