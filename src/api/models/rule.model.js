@@ -10,11 +10,11 @@ module.exports = (sequelize, Sequelize) => {
     Rule.init(
         {
             title: {
-                type: DataTypes.STRING,
+                type: DataTypes.TEXT,
                 allowNull: true,
             },
             contentData: {
-                type: DataTypes.STRING,
+                type: DataTypes.TEXT,
                 allowNull: true,
             },
             tourDetail_id: {
