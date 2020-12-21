@@ -29,12 +29,12 @@ module.exports = {
   },
   avatarDirectory: process.env.AVATAR_DIRECTORY,
   avatarTypes: ['image/png', 'image/jpg', 'image/jpeg'],
-  avatarLimitSize: 8097152, // 1mb
+  avatarLimitSize: 52428800, // 1mb
   photoDirectory: process.env.PHOTOS_DIRECTORY,
   photoTypes: ['image/png', 'image/jpg', 'image/jpeg', 'image/gif'],
-  photoLimitSize: 8097152,
+  photoLimitSize: 52428800,
   fileDirectory: process.env.FILES_DIRECTORY,
-  fileLimitSize: 8097152,
+  fileLimitSize: 52428800,
   // fileTypes: ["image/png", "image/jpg", "image/jpeg"],
 
   staticUrl: process.env.STATIC_URL,

@@ -113,12 +113,6 @@ exports.remove = async (req, res, next) => {
       place_id: id,
     },
   });
-  var imageDel = await Image.findAll({
-    where: { place_id: id },
-  });
-  imageDel.forEach((item) => {
-    fs.unlinkSync(item.path);
-  });
   const del8 = await Image.destroy({
     where: {
       place_id: id,
@@ -145,14 +139,6 @@ exports.updateItem = async (req, res, next) => {
 };
 exports.update = async (req, res, next) => {
   const { id } = req.params;
-
-  var imageDel = await Image.findAll({
-    where: { place_id: id, tourDetail_id: null },
-  });
-  console.log(imageDel);
-  imageDel.forEach((item) => {
-    fs.unlinkSync(item.path);
-  });
   Image.destroy({
     where: {
       place_id: id,
@@ -201,13 +187,12 @@ exports.create = async (req, res, next) => {
 exports.findAll = async (req, res, next) => {
   const { isFeatured, q, page, perpage } = req.query;
   const { limit, offset } = getPagination(page, perpage);
-  const condition = isFeatured ? { isFeatured: isFeatured } : null;
+  console.log(isFeatured);
+  const condition = isFeatured ? { isFeatured: isFeatured } : { isFeatured: true };
   const attributes = ['id', 'title', 'sumHotel', 'image', 'isFeatured', 'createdAt', 'updatedAt', 'placeOrder'];
 
   var places = await Place.findAndCountAll({
     where: condition,
-    limit,
-    offset,
     attributes,
     order: [['placeOrder', 'ASC']],
   });

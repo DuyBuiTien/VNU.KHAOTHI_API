@@ -59,6 +59,7 @@ public/images/message/*
 !public/images/message/.gitkeep
 
 public/images/users/*
+public/images/*
 !public/images/users/.gitkeep
 
 .env
