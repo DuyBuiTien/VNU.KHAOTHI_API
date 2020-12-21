@@ -76,14 +76,13 @@ exports.update = async (req, res, next) => {
 
 exports.create = async (req, res, next) => {
   try {
-    const itemData = omit(req.body, '');
+    const itemData = omit(req.body, 'id');
 
     const item = await Tour.create(itemData)
       .then((result) => res.send(result))
       .catch((err) => next(err));
 
     res.status(httpStatus.CREATED);
-    return res.json(item);
   } catch (error) {
     console.log(error);
   }

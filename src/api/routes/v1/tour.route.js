@@ -13,7 +13,6 @@ router.route('/featured')
 router.route('/tag')
     .get(controller.findAllTag)
 
-
 router.route('/:id')
     .get(controller.findOne)
     .patch(controller.update)

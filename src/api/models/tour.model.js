@@ -57,6 +57,10 @@ module.exports = (sequelize, Sequelize) => {
         type: DataTypes.BOOLEAN,
         allowNull: true,
       },
+      place_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
       orderId: {
         type: DataTypes.INTEGER,
         allowNull: true,
