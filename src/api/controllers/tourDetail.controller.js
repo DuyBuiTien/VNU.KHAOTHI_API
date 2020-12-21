@@ -61,7 +61,6 @@ exports.create = async (req, res, next) => {
       .catch((err) => next(err));
 
     res.status(httpStatus.CREATED);
-    return res.json(item);
   } catch (error) {
     console.log(error);
   }
