@@ -97,6 +97,12 @@ exports.update = async (req, res, next) => {
 exports.remove = (req, res, next) => {
   const { id } = req.params;
 
+  Image.destroy({
+    where: {
+      tourDetail_id: id,
+    },
+  });
+
   TourDetail.destroy({
     where: {
       id,
@@ -133,12 +139,14 @@ exports.findAll = async (req, res, next) => {
 
   var images = await Image.findAll({ where: { tourDetail_id: { [Op.gt]: 0 } } });
   var responseTour = [];
-  tours.rows.length > 0 && tours.rows && tours.rows.forEach((item) => {
-    var tempItem = { ...item.toJSON(), listImages: [] };
-    var temp = images.filter((i) => i.tourDetail_id == item.id);
-    tempItem.imagesHeader = temp;
-    responseTour.push(tempItem);
-  });
+  tours.rows.length > 0 &&
+    tours.rows &&
+    tours.rows.forEach((item) => {
+      var tempItem = { ...item.toJSON(), listImages: [] };
+      var temp = images.filter((i) => i.tourDetail_id == item.id);
+      tempItem.imagesHeader = temp;
+      responseTour.push(tempItem);
+    });
   const response = getPagingData({ count: tours.count, rows: responseTour }, page, limit);
   console.log(response);
   res.json(response);

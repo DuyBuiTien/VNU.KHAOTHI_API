@@ -187,13 +187,12 @@ exports.create = async (req, res, next) => {
 exports.findAll = async (req, res, next) => {
   const { isFeatured, q, page, perpage } = req.query;
   const { limit, offset } = getPagination(page, perpage);
-  const condition = isFeatured ? { isFeatured: isFeatured } : null;
+  console.log(isFeatured);
+  const condition = isFeatured ? { isFeatured: isFeatured } : { isFeatured: true };
   const attributes = ['id', 'title', 'sumHotel', 'image', 'isFeatured', 'createdAt', 'updatedAt', 'placeOrder'];
 
   var places = await Place.findAndCountAll({
     where: condition,
-    limit,
-    offset,
     attributes,
     order: [['placeOrder', 'ASC']],
   });
