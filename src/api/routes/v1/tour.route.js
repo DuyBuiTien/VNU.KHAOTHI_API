@@ -15,7 +15,7 @@ router.route('/tag')
 
 router.route('/:id')
     .get(controller.findOne)
-    .patch(controller.update)
+    .put(controller.update)
     .delete(controller.remove)
 
 module.exports = router;
