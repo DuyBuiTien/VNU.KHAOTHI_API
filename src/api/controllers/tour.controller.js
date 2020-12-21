@@ -64,7 +64,6 @@ exports.remove = (req, res, next) => {
 
 exports.update = async (req, res, next) => {
   const { id } = req.params;
-  let item = await Tour.findByPk(id);
 
   const updatedItem = omit(req.body, ['']);
   item = Object.assign(item, updatedItem);

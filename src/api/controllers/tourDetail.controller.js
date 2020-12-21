@@ -61,7 +61,6 @@ exports.create = async (req, res, next) => {
       .catch((err) => next(err));
 
     res.status(httpStatus.CREATED);
-    return res.json(item);
   } catch (error) {
     console.log(error);
   }
@@ -95,7 +94,7 @@ exports.update = async (req, res, next) => {
 };
 
 exports.remove = (req, res, next) => {
-  const { id } = req.params;
+  const { tour_id } = req.params;
 
   Image.destroy({
     where: {
@@ -105,7 +104,7 @@ exports.remove = (req, res, next) => {
 
   TourDetail.destroy({
     where: {
-      id,
+      tour_id,
     },
   })
     .then((data) => res.json(data))
