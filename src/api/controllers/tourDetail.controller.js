@@ -98,7 +98,7 @@ exports.remove = (req, res, next) => {
 
   Image.destroy({
     where: {
-      tourDetail_id: id,
+      tourDetail_id: tour_id,
     },
   });
 
