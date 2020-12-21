@@ -10,13 +10,24 @@ const { Op } = db.Sequelize;
 exports.findOne = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const attributes = ['id', 'place_id', 'title',
+    const attributes = [
+      'id',
+      'place_id',
+      'title',
       'orderId',
-      'tag', 'period', 'image', 'description', 'price', 'note', 'image', 'isFeatured'];
+      'tag',
+      'period',
+      'image',
+      'description',
+      'price',
+      'note',
+      'image',
+      'isFeatured',
+    ];
 
     Tour.findOne({
       where: { id },
-      attributes
+      attributes,
     })
       .then((results) => res.json(results))
       .catch((e) => next(e));
@@ -64,6 +75,8 @@ exports.remove = (req, res, next) => {
 
 exports.update = async (req, res, next) => {
   const { id } = req.params;
+
+  let item = await Tour.findByPk(id);
 
   const updatedItem = omit(req.body, ['']);
   item = Object.assign(item, updatedItem);
@@ -114,8 +127,8 @@ exports.findAll = async (req, res, next) => {
     attributes,
     order: [
       ['place_id', 'ASC'],
-      ['orderId', 'ASC']
-    ]
+      ['orderId', 'ASC'],
+    ],
   });
   var images = await Image.findAll({ where: { tourDetail_id: { [Op.gt]: 0 } } });
   var responseTour = [];
@@ -159,7 +172,6 @@ exports.findAllTag = async (req, res, next) => {
     })
     .catch((e) => next(e));
 };
-
 
 exports.findAllFeatured = async (req, res, next) => {
   const { q, page, perpage } = req.query;
