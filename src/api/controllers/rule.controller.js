@@ -37,30 +37,22 @@ exports.create = async (req, res, next) => {
 };
 
 exports.update = async (req, res, next) => {
-    const item = await Rule.create(req.body[0])
-        .then((result) => result)
-        .catch((err) => next(err));
     const { id } = req.params;
-    // Rule.destroy({
-    //     where: {
-    //         tourDetail_id: id
-    //     }
-    // })
-    //     .then((result) => res.send(result))
-    //     .catch((e) => next(e));
-    // console.log(req.body)
+    Rule.destroy({
+        where: {
+            tourDetail_id: id
+        }
+    })
+        .then((result) => res.send(result))
+        .catch((e) => next(e));
 
-    // Rule.create(req.body[0])
-    //     .then(result => res.send(result))
-    //     .catch(e => next(e))
-
-    // req.body.forEach(async (item) => {
-    //     var updatedItem = omit(item, 'id')
-    //     const temp = await Rule.create(updatedItem)
-    //         .then(result => result)
-    //         .catch(e => next(e))
-    // })
-    // res.sendStatus(202)
+    req.body.forEach(async (item) => {
+        var updatedItem = omit(item, 'id')
+        const temp = await Rule.create(updatedItem)
+            .then(result => result)
+            .catch(e => next(e))
+    })
+    res.send(202)
 };
 
 exports.remove = (req, res, next) => {
