@@ -38,7 +38,11 @@ exports.create = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
     const { id } = req.params;
-    let item = await Policy.findByPk(id);
+    let item = await Policy.findOne({
+        where: {
+            tourDetail_id: id
+        }
+    });
     if (!item) {
         res.sendStatus(400)
     }
