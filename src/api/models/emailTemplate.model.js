@@ -45,6 +45,14 @@ module.exports = (sequelize, Sequelize) => {
         type: DataTypes.BOOLEAN,
         allowNull: true,
       },
+      isConfirm: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+      },
+      isSubcribe: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+      },
     },
     {
       sequelize,

@@ -62,7 +62,7 @@ exports.create = async (req, res, next) => {
 };
 
 exports.findAll = async (req, res, next) => {
-  const { q, page, perpage } = req.query;
+  const { isConfirm, isSubscribe, page, perpage } = req.query;
   const { limit, offset } = getPagination(page, perpage);
   const condition = null;
   const attributes = ['id', 'type', 'title', 'contentData', 'isDefault', 'createdAt', 'updatedAt'];

@@ -40,8 +40,8 @@ exports.addPhotos = (req, res, next) => {
         });
       }
       const outputFile = `${req.file.path}.jpg`;
-
-      await sharp(req.file.path).jpeg({ quality: 80 }).toFile(outputFile);
+      console.log(req.file);
+      await sharp(req.file.path).resize(1600, 900, { withoutEnlargement: true }).jpeg({ quality: 100 }).toFile(outputFile);
 
       // delete old file
       fs.unlinkSync(req.file.path);
