@@ -38,7 +38,11 @@ exports.create = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
   const { id } = req.params;
-  let item = await ScheduleDetail.findByPk(id);
+  let item = await ScheduleDetail.findOne({
+    where: {
+      tourDetail_id: id,
+    },
+  });
 
   const updatedItem = omit(req.body, ['role', 'password']);
   item = Object.assign(item, updatedItem);
