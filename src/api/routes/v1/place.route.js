@@ -25,4 +25,8 @@ router
   .route('/photos')
   //tìm kiếm
   .post(controller.addPhotos);
+router
+  .route('/getAll')
+  //tìm kiếm
+  .get(controller.getAll)
 module.exports = router;

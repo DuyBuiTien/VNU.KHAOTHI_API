@@ -49,7 +49,7 @@ module.exports = (sequelize, Sequelize) => {
         type: DataTypes.BOOLEAN,
         allowNull: true,
       },
-      isSubcribe: {
+      isSubscribe: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
       },

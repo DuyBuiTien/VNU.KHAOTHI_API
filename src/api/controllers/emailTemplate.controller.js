@@ -18,8 +18,14 @@ exports.update = async (req, res, next) => {
     res.sendStatus(400);
   }
   if (req.body.isDefault == true) {
+    var conditions
+    if (req.body.isConfirm == true) {
+      conditions = { isConfirm: true }
+    } else if (req.body.isSubscribe == true) {
+      conditions = { isSubscribe: true }
+    }
     try {
-      await EmailTemplate.update({ isDefault: false }, { where: { id: { [Op.gt]: 0 } } });
+      await EmailTemplate.update({ isDefault: false }, { where: conditions });
     } catch (error) {
       console.log(error);
     }
@@ -64,8 +70,8 @@ exports.create = async (req, res, next) => {
 exports.findAll = async (req, res, next) => {
   const { isConfirm, isSubscribe, page, perpage } = req.query;
   const { limit, offset } = getPagination(page, perpage);
-  const condition = null;
-  const attributes = ['id', 'type', 'title', 'contentData', 'isDefault', 'createdAt', 'updatedAt'];
+  const condition = isConfirm ? { isConfirm: isConfirm } : isSubscribe ? { isSubscribe: isSubscribe } : null;
+  const attributes = ['id', 'type', 'title', 'contentData', 'isDefault', 'isConfirm', 'isSubscribe', 'createdAt', 'updatedAt'];
   EmailTemplate.findAndCountAll({
     where: condition,
     limit,

@@ -183,7 +183,22 @@ exports.create = async (req, res, next) => {
     console.log(error);
   }
 };
+exports.getAll = async (req, res, next) => {
+  const { isFeatured, q, page, perpage } = req.query;
+  const { limit, offset } = getPagination(page, perpage);
+  const condition = isFeatured ? { isFeatured: isFeatured } : null;
+  const attributes = ['id', 'title', 'sumHotel', 'image', 'isFeatured', 'createdAt', 'updatedAt', 'placeOrder'];
 
+  Place.findAll({
+    where: condition,
+    attributes,
+    order: [['placeOrder', 'ASC']],
+  })
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((e) => next(e));
+};
 exports.findAll = async (req, res, next) => {
   const { isFeatured, q, page, perpage } = req.query;
   const { limit, offset } = getPagination(page, perpage);
