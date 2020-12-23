@@ -90,10 +90,10 @@ exports.create = async (req, res, next) => {
 exports.findByTourDetailId = async (req, res, next) => {
   try {
     const attributes = ['id', 'uid', 'url', 'path', 'place_id', 'tourDetail_id'];
-    const { tourDetail_id } = req.params;
+    const { tourDetail_id, place_id } = req.params;
 
-    Image.findAndCountAll({
-      where: { tourDetail_id },
+    Image.findAll({
+      where: { tourDetail_id, place_id },
       attributes,
     })
       .then((results) => res.json(results))

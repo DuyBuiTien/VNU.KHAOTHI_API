@@ -8,6 +8,7 @@ const Image = db.image;
 const { Op } = db.Sequelize;
 
 exports.findOne = async (req, res, next) => {
+  console.log(req.params)
   try {
     const { id } = req.params;
     const attributes = [

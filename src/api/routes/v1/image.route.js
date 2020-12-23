@@ -13,7 +13,7 @@ router
     .put(controller.update)
     .delete(controller.remove)
 
-router.route('/tour/:tourDetail_id')
+router.route('/tour/:tourDetail_id/:place_id')
     .get(controller.findByTourDetailId)
 
 router.route('/place/:place_id')
