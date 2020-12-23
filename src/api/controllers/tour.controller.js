@@ -135,6 +135,7 @@ exports.findAllTag = async (req, res, next) => {
     'title',
     'period',
     'orderId',
+    'image',
     'tag',
     'description',
     'price',

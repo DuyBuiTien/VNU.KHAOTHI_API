@@ -40,7 +40,7 @@ exports.findAllImages = async (req, res, next) => {
   const { q, page, perpage } = req.query;
   const { limit, offset } = getPagination(page, perpage);
   const condition = null;
-  const attributes = ['id', 'uid', 'url', 'path', 'isHome', 'isIntro', 'createdAt', 'updatedAt'];
+  const attributes = ['id', 'uid', 'url', 'path', 'isHome', 'isIntro', 'isPlace', 'createdAt', 'updatedAt'];
   Banner.findAll({
     where: { isIntro: true },
     limit,

@@ -21,11 +21,58 @@ const Service = db.service;
 const Rule = db.rule;
 const Policy = db.policy;
 const Image = db.image;
-
+const Banner = db.banner;
 const { Op } = db.Sequelize;
 
 const photosUploadFile = multer(storagePhoto).single('upload');
+exports.updateImage = async (req, res, next) => {
+  try {
+    var imageDel = await Banner.findAll({
+      where: { isPlace: true },
+    });
+    if (imageDel) {
+      imageDel.forEach((item) => {
+        var ind = req.body.imagesHeader.findIndex((key) => (item.uid = key.uid));
+        if (ind == -1) {
+          fs.unlinkSync(item.path);
+        }
+      });
+    }
 
+    Banner.destroy({
+      where: {
+        isPlace: true,
+      },
+    })
+      .then((result) => result)
+      .catch((e) => next(e));
+    console.log(req.body);
+    req.body.imagesHeader.forEach(async (i) => {
+      const temp = await Banner.create(i)
+        .then((result) => res.json('ok'))
+        .catch((err) => next(err));
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.findAllImages = async (req, res, next) => {
+  const { q, page, perpage } = req.query;
+  const { limit, offset } = getPagination(page, perpage);
+  const condition = null;
+  const attributes = ['id', 'uid', 'url', 'path', 'isHome', 'isIntro', 'isPlace', 'createdAt', 'updatedAt'];
+  Banner.findAll({
+    where: { isPlace: true },
+    limit,
+    offset,
+    attributes,
+  })
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((e) => next(e));
+};
 exports.addPhotos = (req, res, next) => {
   const currentUser = req.user;
 
@@ -183,22 +230,7 @@ exports.create = async (req, res, next) => {
     console.log(error);
   }
 };
-exports.getAll = async (req, res, next) => {
-  const { isFeatured, q, page, perpage } = req.query;
-  const { limit, offset } = getPagination(page, perpage);
-  const condition = isFeatured ? { isFeatured: isFeatured } : null;
-  const attributes = ['id', 'title', 'sumHotel', 'image', 'isFeatured', 'createdAt', 'updatedAt', 'placeOrder'];
 
-  Place.findAll({
-    where: condition,
-    attributes,
-    order: [['placeOrder', 'ASC']],
-  })
-    .then((data) => {
-      res.json(data);
-    })
-    .catch((e) => next(e));
-};
 exports.findAll = async (req, res, next) => {
   const { isFeatured, q, page, perpage } = req.query;
   const { limit, offset } = getPagination(page, perpage);
