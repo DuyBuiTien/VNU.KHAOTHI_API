@@ -18,6 +18,7 @@ const dashboardRoutes = require('./dashboard.route');
 const userRoutes = require('./user.route');
 const homeRoutes = require('./home.route');
 const introHeaderRoutes = require('./introHeader.route');
+const placeHeaderRoutes = require('./placeHeader.route');
 const emailTemplateRoutes = require('./emailTemplate.route');
 const router = express.Router();
 
@@ -49,5 +50,6 @@ router.use('/icon', iconRoutes);
 router.use('/policy', policyRoutes);
 router.use('/home', homeRoutes);
 router.use('/introHeader', introHeaderRoutes);
+router.use('/placeHeader', placeHeaderRoutes);
 router.use('/emailTemplate', emailTemplateRoutes);
 module.exports = router;

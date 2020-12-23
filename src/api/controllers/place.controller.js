@@ -21,11 +21,58 @@ const Service = db.service;
 const Rule = db.rule;
 const Policy = db.policy;
 const Image = db.image;
-
+const Banner = db.banner;
 const { Op } = db.Sequelize;
 
 const photosUploadFile = multer(storagePhoto).single('upload');
+exports.updateImage = async (req, res, next) => {
+  try {
+    var imageDel = await Banner.findAll({
+      where: { isPlace: true },
+    });
+    if (imageDel) {
+      imageDel.forEach((item) => {
+        var ind = req.body.imagesHeader.findIndex((key) => (item.uid = key.uid));
+        if (ind == -1) {
+          fs.unlinkSync(item.path);
+        }
+      });
+    }
 
+    Banner.destroy({
+      where: {
+        isPlace: true,
+      },
+    })
+      .then((result) => result)
+      .catch((e) => next(e));
+    console.log(req.body);
+    req.body.imagesHeader.forEach(async (i) => {
+      const temp = await Banner.create(i)
+        .then((result) => res.json('ok'))
+        .catch((err) => next(err));
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.findAllImages = async (req, res, next) => {
+  const { q, page, perpage } = req.query;
+  const { limit, offset } = getPagination(page, perpage);
+  const condition = null;
+  const attributes = ['id', 'uid', 'url', 'path', 'isHome', 'isIntro', 'isPlace', 'createdAt', 'updatedAt'];
+  Banner.findAll({
+    where: { isPlace: true },
+    limit,
+    offset,
+    attributes,
+  })
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((e) => next(e));
+};
 exports.addPhotos = (req, res, next) => {
   const currentUser = req.user;
 
@@ -40,8 +87,8 @@ exports.addPhotos = (req, res, next) => {
         });
       }
       const outputFile = `${req.file.path}.jpg`;
-
-      await sharp(req.file.path).jpeg({ quality: 80 }).toFile(outputFile);
+      console.log(req.file);
+      await sharp(req.file.path).resize(1600, 900, { withoutEnlargement: true }).jpeg({ quality: 100 }).toFile(outputFile);
 
       // delete old file
       fs.unlinkSync(req.file.path);
