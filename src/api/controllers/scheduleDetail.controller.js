@@ -8,10 +8,10 @@ const ScheduleDetail = db.scheduleDetail;
 
 exports.findByTourDetailId = async (req, res, next) => {
     try {
-        const attributes = ['id', 'contentData', 'tourDetail_id'];
+        const attributes = ['id', 'title', 'contentData', 'tourDetail_id'];
         const { tourDetail_id } = req.params;
 
-        ScheduleDetail.findAndCountAll({
+        ScheduleDetail.findAll({
             where: { tourDetail_id },
             attributes
         })
@@ -45,7 +45,7 @@ exports.update = async (req, res, next) => {
         }
     });
 
-    const updatedItem = omit(req.body, ['role', 'password']);
+    const updatedItem = omit(req.body, ['']);
     item = Object.assign(item, updatedItem);
     item
         .save()
@@ -69,7 +69,7 @@ exports.findAll = async (req, res, next) => {
     const { q, page, perpage } = req.query;
     const { limit, offset } = getPagination(page, perpage);
     const condition = null;
-    const attributes = ['id', 'contentData', 'tourDetail_id'];
+    const attributes = ['id', 'title', 'contentData', 'tourDetail_id'];
     ScheduleDetail.findAndCountAll({
         where: condition,
         limit,

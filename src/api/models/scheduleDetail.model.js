@@ -26,8 +26,12 @@ module.exports = (sequelize, Sequelize) => {
 
     ScheduleDetail.init(
         {
+            title: {
+                type: DataTypes.TEXT,
+                allowNull: true,
+            },
             contentData: {
-                type: DataTypes.STRING,
+                type: DataTypes.TEXT,
                 allowNull: true,
             },
             tourDetail_id: {
