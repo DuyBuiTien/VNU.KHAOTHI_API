@@ -5,7 +5,6 @@ const db = require('../../config/mssql');
 
 const ScheduleDetail = db.scheduleDetail;
 
-
 exports.findByTourDetailId = async (req, res, next) => {
     try {
         const attributes = ['id', 'title', 'contentData', 'tourDetail_id'];
@@ -41,8 +40,8 @@ exports.update = async (req, res, next) => {
     const { id } = req.params;
     let item = await ScheduleDetail.findOne({
         where: {
-            tourDetail_id: id
-        }
+            tourDetail_id: id,
+        },
     });
 
     const updatedItem = omit(req.body, ['']);
@@ -76,10 +75,6 @@ exports.findAll = async (req, res, next) => {
         offset,
         attributes,
     })
-        .then((data) => {
-            const response = getPagingData(data, page, limit);
-            res.json(response);
-        })
         .catch((e) => console.log(e));
 };
 const getPagination = (page, perpage) => {

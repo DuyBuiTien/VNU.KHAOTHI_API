@@ -6,9 +6,8 @@ const smtpTransport = require('nodemailer-smtp-transport');
 const { emailConfig } = require('../../config/vars');
 const { sendMail } = require('../services/emails/emailProvider');
 const db = require('../../config/mssql');
-
 const Subscribe = db.subscribe;
-
+const EmailTemplate = db.emailTemplate;
 const { Op } = db.Sequelize;
 
 exports.sendEmail = async (req, res) => {
@@ -52,11 +51,30 @@ exports.remove = (req, res, next) => {
     .then((data) => res.json(data))
     .catch((e) => next(e));
 };
-
+const sendEmailSub = async (emails, title, contentData) => {
+  try {
+    // Thực hiện gửi email
+    var temp = await sendMail(emails, title, contentData);
+    // Quá trình gửi email thành công thì gửi về thông báo success cho người dùng
+    return '<h3>Your email has been sent successfully.</h3>';
+  } catch (error) {
+    // Nếu có lỗi thì log ra để kiểm tra và cũng gửi về client
+    console.log(error);
+    return error;
+  }
+};
 exports.create = async (req, res, next) => {
   try {
     const itemData = omit(req.body, '');
-
+    var template = await EmailTemplate.findOne({
+      where: { isDefault: true, isSubscribe: true },
+    }).then((result) => {
+      return result.toJSON();
+    });
+    var contentData = '';
+    contentData = template.contentData;
+    contentData = contentData.replace(/@buttonXacNhan/g, '<button type="button">Xác nhận theo dõi !</button>');
+    await sendEmailSub(itemData.email, template.title, contentData);
     const item = await Subscribe.create(itemData)
       .then((result) => result)
       .catch((err) => next(err));

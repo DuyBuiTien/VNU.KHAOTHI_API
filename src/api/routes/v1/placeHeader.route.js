@@ -5,25 +5,5 @@ const { authorize, LOGGED_USER, ADMIN } = require('../../middlewares/auth');
 const { listUsers, updateUser, updatePassword } = require('../../validations/user.validation');
 
 const router = express.Router();
-
-router
-  .route('/')
-  //tìm kiếm
-  .get(controller.findAll)
-  //thêm mới
-  .post(controller.create);
-router
-  .route('/:id')
-  //chi tiết
-  .get(controller.findOne)
-  //cập nhật
-  .put(controller.update)
-  //xóa
-  .delete(controller.remove)
-  .patch(controller.updateItem);
-router
-  .route('/photos')
-  //tìm kiếm
-  .post(controller.addPhotos);
-
+router.route('/imagesheader').put(controller.updateImage).get(controller.findAllImages);
 module.exports = router;

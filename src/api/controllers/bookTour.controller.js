@@ -6,6 +6,7 @@ const db = require('../../config/mssql');
 
 const BookTour = db.bookTour;
 const EmailTemplate = db.emailTemplate;
+const TourDetail = db.tourDetail;
 const { Op } = db.Sequelize;
 
 exports.findOne = async (req, res, next) => {
@@ -90,11 +91,26 @@ exports.create = async (req, res, next) => {
   try {
     const itemData = omit(req.body, '');
     var template = await EmailTemplate.findOne({
-      where: { isDefault: true },
+      where: { isDefault: true, isConfirm: true },
     }).then((result) => {
       return result.toJSON();
     });
-    await sendEmail(itemData.email, template.title, template.contentData);
+    var tourDetail = await TourDetail.findOne({
+      where: { code: req.body.tourCode },
+    }).then((result) => {
+      return result.toJSON();
+    });
+    var contentData = '';
+    contentData = template.contentData;
+    contentData = contentData.replace(/@tenkhach/g, req.body.name);
+    contentData = contentData.replace(/@tenchuongtrinh/g, tourDetail.title);
+    contentData = contentData.replace(/@machuongtrinh/g, req.body.tourCode);
+    contentData = contentData.replace(/@ngaykhoihanh/g, new Date(req.body.dateStart).toLocaleString());
+    contentData = contentData.replace(/@ngayketthuc/g, new Date(req.body.dateEnd).toLocaleString());
+    contentData = contentData.replace(/@songuoilon/g, req.body.sumPeople);
+    contentData = contentData.replace(/@5den12/g, req.body.sumChildren5to12);
+    contentData = contentData.replace(/@duoi5/g, req.body.sumChildrenUnder5);
+    await sendEmail(itemData.email, template.title, contentData);
     const item = await BookTour.create(itemData)
       .then((result) => result)
       .catch((err) => next(err));

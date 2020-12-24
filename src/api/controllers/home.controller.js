@@ -36,7 +36,7 @@ exports.updateImage = async (req, res, next) => {
 exports.findAllImages = async (req, res, next) => {
   const { q, page, perpage } = req.query;
   const condition = null;
-  const attributes = ['id', 'uid', 'url', 'isHome', 'isIntro', 'createdAt', 'updatedAt'];
+  const attributes = ['id', 'uid', 'url', 'path', 'isHome', 'isIntro', 'isPlace', 'createdAt', 'updatedAt'];
   Banner.findAll({
     where: { isHome: true },
   })
