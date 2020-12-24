@@ -38,18 +38,21 @@ exports.create = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
     const { id } = req.params;
-    let item = await ScheduleDetail.findOne({
+    ScheduleDetail.destroy({
         where: {
-            tourDetail_id: id,
-        },
-    });
+            tourDetail_id: id
+        }
+    })
+        .then((result) => res.send(result))
+        .catch((e) => next(e));
 
-    const updatedItem = omit(req.body, ['']);
-    item = Object.assign(item, updatedItem);
-    item
-        .save()
-        .then((data) => res.json(data))
-        .catch((e) => res.json(e));
+    req.body.forEach(async (item) => {
+        var updatedItem = omit(item, 'id')
+        const temp = await ScheduleDetail.create(updatedItem)
+            .then(result => result)
+            .catch(e => next(e))
+    })
+    res.sendStatus(202)
 };
 
 exports.remove = (req, res, next) => {
