@@ -7,7 +7,7 @@ const ScheduleDetail = db.scheduleDetail;
 
 exports.findByTourDetailId = async (req, res, next) => {
     try {
-        const attributes = ['id', 'title', 'contentData', 'tourDetail_id'];
+        const attributes = ['id', 'title', 'shortcut', 'contentData', 'tourDetail_id'];
         const { tourDetail_id } = req.params;
 
         ScheduleDetail.findAll({
@@ -43,7 +43,7 @@ exports.update = async (req, res, next) => {
             tourDetail_id: id
         }
     })
-        .then((result) => res.send(result))
+        .then((result) => res.sendStatus(result))
         .catch((e) => next(e));
 
     req.body.forEach(async (item) => {
@@ -71,7 +71,7 @@ exports.findAll = async (req, res, next) => {
     const { q, page, perpage } = req.query;
     const { limit, offset } = getPagination(page, perpage);
     const condition = null;
-    const attributes = ['id', 'title', 'contentData', 'tourDetail_id'];
+    const attributes = ['id', 'title', 'shortcut', 'contentData', 'tourDetail_id'];
     ScheduleDetail.findAndCountAll({
         where: condition,
         limit,

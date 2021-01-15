@@ -37,6 +37,10 @@ module.exports = (sequelize, Sequelize) => {
             tourDetail_id: {
                 type: DataTypes.INTEGER,
                 allowNull: true
+            },
+            shortcut: {
+                type: DataTypes.TEXT,
+                allowNull: true,
             }
         },
         {
