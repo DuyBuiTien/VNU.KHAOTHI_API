@@ -38,6 +38,7 @@ exports.create = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
     const { id } = req.params;
+    console.log(id)
     ScheduleDetail.destroy({
         where: {
             tourDetail_id: id
@@ -46,12 +47,9 @@ exports.update = async (req, res, next) => {
         .then((result) => res.send(result))
         .catch((e) => next(e));
 
-    req.body.forEach(async (item) => {
-        var updatedItem = omit(item, 'id')
-        const temp = await ScheduleDetail.create(updatedItem)
-            .then(result => result)
-            .catch(e => next(e))
-    })
+    ScheduleDetail.bulkCreate(req.body)
+        .then(res => res)
+        .catch(e => next(e))
     res.sendStatus(202)
 };
 
