@@ -43,7 +43,7 @@ exports.update = async (req, res, next) => {
             tourDetail_id: id
         }
     })
-        .then((result) => res.sendStatus(result))
+        .then((result) => res.send(result))
         .catch((e) => next(e));
 
     req.body.forEach(async (item) => {
