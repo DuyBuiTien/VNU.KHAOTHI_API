@@ -17,6 +17,26 @@ const { emailConfig } = require('../../../config/vars');
 //   secure: false, // upgrades later with STARTTLS -- change this based on the PORT
 // });
 
+exports.sendEmail = async (email, content, subject) => {
+  const transporter = nodemailer.createTransport({
+    host: emailConfig.host,
+    port: emailConfig.port,
+    secure: false,
+    auth: {
+      user: emailConfig.username,
+      pass: emailConfig.password,
+    },
+    secure: false,
+  });
+  const options = {
+    from: emailConfig.username,
+    to: email,
+    subject: subject,
+    html: content,
+  };
+  return transporter.sendMail(options);
+};
+
 const transporter = nodemailer.createTransport(
   smtpTransport({
     service: 'gmail',

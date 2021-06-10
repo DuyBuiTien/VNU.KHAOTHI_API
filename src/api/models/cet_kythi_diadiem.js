@@ -4,30 +4,35 @@ const { env, jwtSecret, jwtExpirationInterval } = require('../../config/vars');
 const APIError = require('../utils/APIError');
 
 module.exports = (sequelize, Sequelize) => {
-    class Rule extends Model {
+    class Cet_Kythi_Diadiem extends Model {
     }
 
-    Rule.init(
+    Cet_Kythi_Diadiem.init(
         {
-            title: {
-                type: DataTypes.TEXT,
-                allowNull: true,
-            },
-            contentData: {
-                type: DataTypes.TEXT,
-                allowNull: true,
-            },
-            tourDetail_id: {
+            Id: {
                 type: DataTypes.INTEGER,
+                primaryKey: true,
+                autoIncrement: true,
+            },
+            Makythi: {
+                type: DataTypes.TEXT,
+                allowNull: true
+            },
+            Madiadiem: {
+                type: DataTypes.TEXT,
+                allowNull: true
+            },
+            Ghichu: {
+                type: DataTypes.TEXT,
                 allowNull: true
             }
         },
         {
             sequelize,
-            modelName: 'Rule',
+            modelName: 'Cet_Kythi_Diadiem',
             freezeTableName: true,
         },
     );
 
-    return Rule;
+    return Cet_Kythi_Diadiem;
 };

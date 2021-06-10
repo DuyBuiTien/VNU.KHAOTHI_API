@@ -1,33 +1,38 @@
 const { DataTypes, Sequelize, Model } = require('sequelize');
 
 module.exports = (sequelize, Sequelize) => {
-  class Attachment extends Model { }
+  class Notification extends Model { }
 
-  Attachment.init(
+  Notification.init(
     {
-      name: {
+      Id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      title: {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      fileUrl: {
+      image: {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      path: {
-        type: DataTypes.STRING,
+      date: {
+        type: DataTypes.DATE,
         allowNull: true,
       },
-      type: {
+      message: {
         type: DataTypes.STRING,
         allowNull: true,
       },
     },
     {
       sequelize,
-      modelName: 'attachment',
+      modelName: 'notification',
       freezeTableName: true,
     },
   );
 
-  return Attachment;
+  return Notification;
 };

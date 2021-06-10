@@ -5,7 +5,7 @@ const logger = require('./config/logger');
 const server = require('./config/express');
 const db = require('./config/mssql');
 
-db.sequelize.sync();
+db.sequelize.sync({ force: false });
 
 //db.sequelize.sync({ force: true });
 
