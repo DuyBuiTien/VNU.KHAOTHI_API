@@ -161,26 +161,3 @@ yarn deploy
 
 docker-compose down
 docker-compose up
-
-Nếu dùng docker thì mongoURI phải đổi thành
-MONGO_URI=mongodb://mongodb:27017/tdnodejs
-
-https://sequelize.org/master/manual/model-basics.html
-
-Ha Tinh
-10.112.42.50
-1455
-chat/Tandan@123
-
-node_modules\jsonwebtoken\verify.js
-
-comment dong 147
-
-if (typeof payload.exp !== 'undefined' && !options.ignoreExpiration) {
-if (typeof payload.exp !== 'number') {
-return done(new JsonWebTokenError('invalid exp value'));
-}
-if (clockTimestamp >= payload.exp + (options.clockTolerance || 0)) {
-return done(new TokenExpiredError('jwt expired', new Date(payload.exp \_ 1000)));
-}
-}
